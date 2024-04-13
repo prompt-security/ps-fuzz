@@ -11,7 +11,7 @@ setup(
     description="LLM and System Prompt vulnerability scanner tool",
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url="https://github.com/yourgithub/ps_fuzz",  # TODO: Adjust with actual URL
+    url="https://github.com/prompt-security/ps-fuzz",
     packages=find_packages(),
     package_data={
         'ps_fuzz': ['attack_data/*.csv'],
