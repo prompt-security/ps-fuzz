@@ -1,0 +1,32 @@
+name: Release to GitHub
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Clean up old distribution
+      run: bash clean_package.sh
+
+    - name: Build distribution
+      run: bash build_package.sh
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/*
+        name: Release ${{ github.ref_name }} of ${{ github.repository }}
+        body: This is the release of ${{ github.repository }} for version ${{ github.ref_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

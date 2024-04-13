@@ -1,0 +1,8 @@
+venv
+.env
+__pycache__
+*.egg-info/
+psfuzz.log
+.pytest_cache
+build/
+dist/
