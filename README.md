@@ -71,43 +71,41 @@ We use a dynamic testing approach, where we get the necessary context from your 
 ### Usage
 
 ```
-usage: psfuzz.py [-h] [--list-providers] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL]
-                 [--target-provider TARGET_PROVIDER] [--target-model TARGET_MODEL] [-n NUM_ATTACKS]
-                 [-d DEBUG_LEVEL] [-i]
-                 [system_prompt_file]
+usage: ps_fuzz [-h] [--list-providers] [--list-attacks] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL] [--target-provider TARGET_PROVIDER] [--target-model TARGET_MODEL]
+               [-n NUM_ATTEMPTS] [-t NUM_THREADS] [-a ATTACK_TEMPERATURE] [-d DEBUG_LEVEL] [-b]
+               [system_prompt_file]
 
 Prompt Security LLM Prompt Injection Fuzzer
 
 positional arguments:
-  system_prompt_file    Filename containing the system prompt. A special value of '-' means read from stdin.
+  system_prompt_file    Filename containing the system prompt
 
 options:
   -h, --help            show this help message and exit
-  --list-providers  List available providers and exit
+  --list-providers      List available providers and exit
+  --list-attacks        List available attacks and exit
   --attack-provider ATTACK_PROVIDER
-                        Attack provider (default: 'open_ai')
+                        Attack provider
   --attack-model ATTACK_MODEL
-                        Attack model (default: 'gpt-3.5-turbo')
+                        Attack model
   --target-provider TARGET_PROVIDER
-                        Target provider (default: 'open_ai')
+                        Target provider
   --target-model TARGET_MODEL
-                        Model (default: 'gpt-3.5-turbo')
-  -n NUM_ATTACKS, --num-attacks NUM_ATTACKS
-                        Number of different attack prompts to generate for each test (default=3)
+                        Target model
+  -n NUM_ATTEMPTS, --num-attempts NUM_ATTEMPTS
+                        Number of different attack prompts
+  -t NUM_THREADS, --num-threads NUM_THREADS
+                        Number of worker threads
+  -a ATTACK_TEMPERATURE, --attack-temperature ATTACK_TEMPERATURE
+                        Temperature for attack model
   -d DEBUG_LEVEL, --debug-level DEBUG_LEVEL
-                        Debug level: 0=only see warnings and errors, 1=info (default), 2=debug/trace
-  -i, --interactive-chat
-                        Run interactive chat instead of the fuzzer. This allows you to chat with the chatbot manually, with the given system prompt in place
+                        Debug level
+  -b, --batch           Run the fuzzer in unattended (batch) mode, bypassing the interactive steps
 ```
 
 <a id="usage"></a>
 ### Example
-Run tests against the system prompt:
+Run tests against the system prompt (in non-interactive batch mode):
 ```
-psfuzz.py ./system_prompt.examples/medium_system_prompt.txt
-```
-
-Run interactive chat with system prompt:
-```
-psfuzz.py -i ./system_prompt.examples/medium_system_prompt.txt
+psfuzz.py -b ./system_prompt.examples/medium_system_prompt.txt
 ```
