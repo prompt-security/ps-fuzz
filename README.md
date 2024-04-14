@@ -71,7 +71,7 @@ We use a dynamic testing approach, where we get the necessary context from your 
 ### Usage
 
 ```
-usage: psfuzz.py [-h] [-l] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL]
+usage: psfuzz.py [-h] [--list-providers] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL]
                  [--target-provider TARGET_PROVIDER] [--target-model TARGET_MODEL] [-n NUM_ATTACKS]
                  [-d DEBUG_LEVEL] [-i]
                  [system_prompt_file]
@@ -83,7 +83,7 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
-  -l, --list-providers  List available providers and exit
+  --list-providers  List available providers and exit
   --attack-provider ATTACK_PROVIDER
                         Attack provider (default: 'open_ai')
   --attack-model ATTACK_MODEL

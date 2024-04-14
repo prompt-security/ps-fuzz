@@ -36,7 +36,8 @@ def setup_logging(logging_level):
 def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(description='Prompt Security LLM Prompt Injection Fuzzer')
-    parser.add_argument('-l', '--list-providers', action='store_true', default=False, help="List available providers and exit")
+    parser.add_argument('--list-providers', action='store_true', default=False, help="List available providers and exit")
+    parser.add_argument('--list-attacks', action='store_true', default=False, help="List available attacks and exit")
     parser.add_argument('--attack-provider', type=str, default="open_ai", help="Attack provider (default: 'open_ai')")
     parser.add_argument('--attack-model', type=str, default="gpt-3.5-turbo", help="Attack model (default: 'gpt-3.5-turbo')")
     parser.add_argument('--target-provider', type=str, default="open_ai", help="Target provider (default: 'open_ai')")
@@ -54,6 +55,15 @@ def main():
         print("Available providers:")
         for provider_name, provider_info in get_langchain_chat_models_info().items():
             print(f"  {BRIGHT}{provider_name}{RESET}: {provider_info.short_doc}")
+        sys.exit(0)
+
+    if args.list_attacks:
+        client_config = ClientConfig(FakeChatClient(), [])
+        attack_config = AttackConfig(FakeChatClient(), 1)
+        tests = instantiate_tests(client_config, attack_config)
+        print("Available attacks:")
+        for test_name, test_description in [(cls.test_name, cls.test_description) for cls in tests]:
+            print(f"  {BRIGHT}{test_name}{RESET}: {test_description}")
         sys.exit(0)
 
     if args.system_prompt_file is None:
