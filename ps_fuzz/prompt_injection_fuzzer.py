@@ -1,3 +1,4 @@
+from .app_config import AppConfig
 from .chat_clients import *
 from .client_config import ClientConfig
 from .attack_config import AttackConfig
@@ -6,7 +7,8 @@ from .test_base import TestBase
 from .attack_registry import instantiate_tests
 from .attack_loader import * # load and register attacks defined in 'attack/*.py'
 from .work_progress_pool import WorkProgressPool, ThreadSafeTaskIterator, ProgressWorker
-from .results_table import print_results
+from .interactive_chat import *
+from .results_table import print_table
 import colorama
 import logging
 logger = logging.getLogger(__name__)
@@ -89,7 +91,7 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
     VULNERABLE = f"{RED}✘{RESET}"
     ERROR = f"{BRIGHT_YELLOW}⚠{RESET}"
 
-    print_results(
+    print_table(
         title = "Test results",
         headers = [
             "",
@@ -139,3 +141,23 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
             print(f"Success: {entry.success}")
             print(f"Additional info: {entry.additional_info}")
     """
+
+def run_interactive_chat(app_config: AppConfig):
+    # Print current app configuration
+    app_config.print_as_table()
+    target_system_prompt = app_config.system_prompt
+    target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
+    interactive_chat(client=target_client, system_prompts=[target_system_prompt])
+
+def run_fuzzer(app_config: AppConfig):
+    # Print current app configuration
+    app_config.print_as_table()
+    target_system_prompt = app_config.system_prompt
+    target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
+    client_config = ClientConfig(target_client, [target_system_prompt])
+    attack_config = AttackConfig(
+        attack_client = ClientLangChain(app_config.attack_provider, model=app_config.attack_model, temperature=app_config.attack_temperature),
+        attack_prompts_count = app_config.num_attempts
+    )
+    # Run the fuzzer
+    fuzz_prompt_injections(client_config, attack_config, threads_count=app_config.num_threads)
