@@ -53,9 +53,7 @@ def main():
     if args.list_providers:
         print("Available providers:")
         for provider_name, provider_info in get_langchain_chat_models_info().items():
-            doc = provider_info.doc
-            short_doc = doc[:doc.find('\n')]
-            print(f"  {BRIGHT}{provider_name}{RESET}: {short_doc}")
+            print(f"  {BRIGHT}{provider_name}{RESET}: {provider_info.short_doc}")
         sys.exit(0)
 
     if args.system_prompt_file is None:
