@@ -57,6 +57,7 @@ class FuzzerOptions:
                 default=state.system_prompt
             ),
         ])
+        if result is None: return  # Handle prompt cancellation concisely
         state.num_attempts = int(result['num_attempts'])
         state.system_prompt = result['system_prompt']
         return MainMenu
@@ -73,6 +74,7 @@ class DebugOptions:
                 validate=lambda _, x: x.isdigit() and int(x) > 0
             ),
         ])
+        if result is None: return  # Handle prompt cancellation concisely
         state.debug_level = int(result['debug_level'])
         return MainMenu
 
@@ -94,6 +96,7 @@ class TargetLLMOptions:
                 default=state.target_model
             ),
         ])
+        if result is None: return  # Handle prompt cancellation concisely
         state.target_provider = result['target_provider']
         cls.llm_model = result['target_model']
         return MainMenu
@@ -116,6 +119,7 @@ class AttackLLMOptions:
                 default=state.attack_model
             ),
         ])
+        if result is None: return  # Handle prompt cancellation concisely
         state.attack_provider = result['attack_provider']
         state.attack_model = result['attack_model']
         return MainMenu
