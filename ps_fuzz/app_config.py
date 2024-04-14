@@ -182,7 +182,7 @@ def parse_cmdline_args():
     parser.add_argument('-t', '--num-threads', type=int, default=None, help="Number of worker threads")
     parser.add_argument('-a', '--attack-temperature', type=float, default=None, help="Temperature for attack model")
     parser.add_argument('-d', '--debug-level', type=int, default=None, help="Debug level")
-    parser.add_argument("-i", '--interactive', action='store_true', help="Run interactive session where you can review/modify configuration, run the fuzzer and more ...")
+    parser.add_argument("-b", '--batch', action='store_true', help="Run the fuzzer in unattended (batch) mode, bypassing the interactive steps")
     parser.add_argument('system_prompt_file', type=str, nargs='?', default=None, help="Filename containing the system prompt")
     return parser.parse_args()
 

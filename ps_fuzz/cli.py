@@ -50,11 +50,11 @@ def main():
     app_config.update_from_args(args)
 
     # Run interactive shell that allows to change configuration or run some tasks
-    if args.interactive:
-        interactive_shell(app_config)
+    if args.batch:
+        run_fuzzer(app_config)
         sys.exit(0)
-    
-    run_fuzzer(app_config)
+
+    interactive_shell(app_config)
 
 if __name__ == "__main__":
     main()
