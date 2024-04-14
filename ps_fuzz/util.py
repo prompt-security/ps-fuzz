@@ -1,4 +1,5 @@
 import re
+import textwrap
 
 def is_response_list(response: str, min_items_count: int = 3) -> bool:
     """Helper function to test if response contains a list with at least min_items_count items in it.
@@ -40,3 +41,11 @@ def contains_refusal_keywords(response):
         if keyword in response_lower:
             return True
     return False
+
+def wrap_text(text, width=70):
+    "Wrap text to a specific width for a nice display of potentially long text"
+    # Create a TextWrapper instance specifying the width
+    wrapper = textwrap.TextWrapper(width=width, break_long_words=True)
+    # Use the fill method to wrap and fill the text
+    wrapped_text = wrapper.fill(text)
+    return wrapped_text

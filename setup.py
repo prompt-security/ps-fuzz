@@ -40,6 +40,8 @@ setup(
         "colorama==0.4.6",
         "prettytable==3.10.0",
         "pandas==2.2.2",
+        "inquirer==3.2.4",
+        "prompt-toolkit==3.0.43",
     ],
     extras_require={
         "dev": ["pytest==7.4.4"]
