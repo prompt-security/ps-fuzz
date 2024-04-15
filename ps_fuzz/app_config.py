@@ -34,11 +34,11 @@ class AppConfig:
     def print_as_table(self):
         attributes = self.get_attributes()
         print_table(
-            title = "Configuration",
+            title = "Current configuration",
             headers = ["Option", "Value"],
             data = [[key, value] for key, value in attributes.items() if key != "system_prompt"] # print all except the system prompt
         )
-        print(f"{colorama.Style.BRIGHT}System prompt:{colorama.Style.RESET_ALL}")
+        print(f"{colorama.Style.BRIGHT}Current system prompt:{colorama.Style.RESET_ALL}")
         #print(f"{colorama.Style.DIM}{wrap_text(self.system_prompt, width=70)}{colorama.Style.RESET_ALL}")
         print(f"{colorama.Style.DIM}{self.system_prompt}{colorama.Style.RESET_ALL}")
 
@@ -180,7 +180,7 @@ def parse_cmdline_args():
     parser.add_argument('-n', '--num-attempts', type=int, default=None, help="Number of different attack prompts")
     parser.add_argument('-t', '--num-threads', type=int, default=None, help="Number of worker threads")
     parser.add_argument('-a', '--attack-temperature', type=float, default=None, help="Temperature for attack model")
-    parser.add_argument('-d', '--debug-level', type=int, default=None, help="Debug level")
+    parser.add_argument('-d', '--debug-level', type=int, default=None, help="Debug level (0-2)")
     parser.add_argument("-b", '--batch', action='store_true', help="Run the fuzzer in unattended (batch) mode, bypassing the interactive steps")
     parser.add_argument('system_prompt_file', type=str, nargs='?', default=None, help="Filename containing the system prompt")
     return parser.parse_args()

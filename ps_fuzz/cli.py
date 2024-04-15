@@ -54,9 +54,9 @@ def main():
     # Run interactive shell that allows to change configuration or run some tasks
     if args.batch:
         run_fuzzer(app_config)
-        sys.exit(0)
-
-    interactive_shell(app_config)
+    else:
+        interactive_shell(app_config)
+    print(f"{BRIGHT}{colorama.Fore.CYAN}Thank you for trying out the Prompt Security Fuzzer!{RESET}")
 
 if __name__ == "__main__":
     main()
