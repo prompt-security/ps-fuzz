@@ -20,7 +20,7 @@ RESET = colorama.Style.RESET_ALL
 BRIGHT = colorama.Style.BRIGHT
 
 # Maintain configuration state in the user's home directory
-APP_CONFIG_FILE = os.path.join(os.path.expanduser("~"), ".psfuzz-config.json")
+APP_CONFIG_FILE = os.path.join(os.path.expanduser("~"), ".prompt-security-fuzzer-config.json")
 
 def main():
     # Print the logo
