@@ -1,11 +1,11 @@
-# Contributing to PS_Fuzz
+# Contributing to Prompt Security Fuzzer
 
-Thank you for your interest in contributing to PS_Fuzz! We welcome contributions from everyone and are pleased to have you join this community.
+Thank you for your interest in contributing to Prompt Security Fuzzer! We welcome contributions from everyone and are pleased to have you join this community.
 This document provides guidelines and instructions for contributing to this project.
 
 ## Code of Conduct
 
-The PS_Fuzz project adheres to a code of conduct that you can read at [Code of Conduct](LINK_TO_CODE_OF_CONDUCT).
+The Prompt Security project adheres to a code of conduct that you can read at [Code of Conduct](LINK_TO_CODE_OF_CONDUCT).
 By participating in this project, you agree to abide by its terms.
 
 ## Getting Started
@@ -22,8 +22,8 @@ Before you begin, ensure you have the following installed:
 
 2. **Clone Your Fork**:
 ```bash
-git clone https://github.com/yourusername/ps_fuzz.git
-cd ps_fuzz
+git clone https://github.com/prompt-security/ps-fuzz.git
+cd ps-fuzz
 ```
 
 ### Set up a virtual environment
@@ -67,15 +67,16 @@ The tool would automatically recognize that the file is present and will try to 
 
 ### Running the Tool
 
-To run the ps_fuzz tool from your development environment, you can use the command-line interface set up in the project.
-Since the package is installed in editable mode, you can run the tool directly from the source code without needing a separate installation step for testing changes.
+To run the tool from your development environment, you can use the command-line interface set up in the project.
+Since the package is installed in editable mode (e.g. via `pip install -e .[dev]`), you can run the tool directly from the source code without
+needing a separate installation step for testing changes.
 
 To execute the tool, use the following command:
 ```bash
-ps_fuzz --help
+prompt_security_fuzzer --help
 ```
 
-or alternatively:
+Or alternatively, execute directly from subdirectory:
 ```bash
 python -m ps_fuzz --help
 ```

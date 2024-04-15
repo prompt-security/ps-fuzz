@@ -49,7 +49,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'ps_fuzz=ps_fuzz.cli:main',
+            'prompt_security_fuzzer=ps_fuzz.cli:main',
         ],
     },
 )

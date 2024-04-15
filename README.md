@@ -71,7 +71,7 @@ We use a dynamic testing approach, where we get the necessary context from your 
 ### Usage
 
 ```
-usage: ps_fuzz [-h] [--list-providers] [--list-attacks] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL] [--target-provider TARGET_PROVIDER] [--target-model TARGET_MODEL]
+usage: prompt_security_fuzzer [-h] [--list-providers] [--list-attacks] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL] [--target-provider TARGET_PROVIDER] [--target-model TARGET_MODEL]
                [-n NUM_ATTEMPTS] [-t NUM_THREADS] [-a ATTACK_TEMPERATURE] [-d DEBUG_LEVEL] [-b]
                [system_prompt_file]
 
@@ -107,5 +107,5 @@ options:
 ### Example
 Run tests against the system prompt (in non-interactive batch mode):
 ```
-psfuzz.py -b ./system_prompt.examples/medium_system_prompt.txt
+prompt_security_fuzzer.py -b ./system_prompt.examples/medium_system_prompt.txt
 ```
