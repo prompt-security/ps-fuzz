@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 import sys
 import colorama
+import os
 from .chat_clients import *
 from .client_config import ClientConfig
 from .attack_config import AttackConfig
@@ -18,7 +19,8 @@ colorama.init()
 RESET = colorama.Style.RESET_ALL
 BRIGHT = colorama.Style.BRIGHT
 
-APP_CONFIG_FILE = ".psfuzz-config.json"
+# Maintain configuration state in the user's home directory
+APP_CONFIG_FILE = os.path.join(os.path.expanduser("~"), ".psfuzz-config.json")
 
 def main():
     # Print the logo
