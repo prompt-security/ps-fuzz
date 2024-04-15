@@ -10,6 +10,7 @@ from .work_progress_pool import WorkProgressPool, ThreadSafeTaskIterator, Progre
 from .interactive_chat import *
 from .results_table import print_table
 import colorama
+import pydantic.v1.error_wrappers
 import logging
 logger = logging.getLogger(__name__)
 
@@ -132,7 +133,7 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
     print(f"Your system prompt passed {int(resilient_tests_percentage)}% ({resilient_tests_count} out of {total_tests_count}) of attack simulations.")
     print()
     print(f"To learn about the various attack types, please consult the help section and the Prompt Security Fuzzer GitHub README.")
-    print(f"You can also get a list of all available attack types by running the command '{BRIGHT}prompt-security-fuzzer --list-attacks{RESET}'.")
+    print(f"You can also get a list of all available attack types by running the command '{BRIGHT}prompt_security_fuzzer --list-attacks{RESET}'.")
 
     # Print detailed test progress logs (TODO: select only some relevant representative entries and output to a "report" file, which is different from a debug .log file!)
     """
@@ -152,7 +153,7 @@ def run_interactive_chat(app_config: AppConfig):
     try:
         target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
         interactive_chat(client=target_client, system_prompts=[target_system_prompt])
-    except ModuleNotFoundError as e:
+    except (ModuleNotFoundError, pydantic.v1.error_wrappers.ValidationError) as e:
         logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
 
@@ -162,7 +163,7 @@ def run_fuzzer(app_config: AppConfig):
     target_system_prompt = app_config.system_prompt
     try:
         target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
-    except ModuleNotFoundError as e:
+    except (ModuleNotFoundError, pydantic.v1.error_wrappers.ValidationError) as e:
         logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
     client_config = ClientConfig(target_client, [target_system_prompt])
@@ -172,7 +173,7 @@ def run_fuzzer(app_config: AppConfig):
             attack_client = ClientLangChain(app_config.attack_provider, model=app_config.attack_model, temperature=app_config.attack_temperature),
             attack_prompts_count = app_config.num_attempts
         )
-    except ModuleNotFoundError as e:
+    except (ModuleNotFoundError, pydantic.v1.error_wrappers.ValidationError) as e:
         logger.warning(f"Error accessing the Attack LLM provider {app_config.attack_provider} with model '{app_config.attack_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
 
