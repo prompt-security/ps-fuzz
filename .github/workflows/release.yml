@@ -19,6 +19,10 @@ jobs:
     - name: Clean up old distribution
       run: bash clean_package.sh
 
+    - name: Determine Package Version
+      id: get_version
+      run: echo "PKG_VERSION=$(bash get_version.sh)" >> $GITHUB_ENV
+
     - name: Build distribution
       run: bash build_package.sh
 
@@ -26,7 +30,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: dist/*
-        name: Release ${{ github.ref_name }} of ${{ github.repository }}
-        body: This is the release of ${{ github.repository }} for version ${{ github.ref_name }}
+        name: Release ${{ env.PKG_VERSION }} of ${{ github.repository }}
+        body: This is the release of ${{ github.repository }} for version ${{ env.PKG_VERSION }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
