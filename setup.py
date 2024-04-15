@@ -1,3 +1,4 @@
+import os
 from setuptools import setup, find_packages
 
 with open('README.md', 'r', encoding='utf-8') as fh:
@@ -5,7 +6,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setup(
     name="ps_fuzz",
-    version="1.0.0",
+    version=os.getenv('PKG_VERSION', '0.0.1'),
     author="Prompt Security",
     author_email="support@prompt.security",
     description="LLM and System Prompt vulnerability scanner tool",

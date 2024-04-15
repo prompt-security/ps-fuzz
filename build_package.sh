@@ -7,7 +7,12 @@ python -m pip install --upgrade pip setuptools wheel
 echo "Cleaning up previous builds..."
 rm -rf build/ dist/ *.egg-info
 
-echo "Building the package..."
+echo "Determining package version..."
+# Use get_version.sh to determine the package version
+PKG_VERSION=$(./get_version.sh)
+export PKG_VERSION
+
+echo "Building the package with version $PKG_VERSION..."
 python setup.py sdist bdist_wheel
 
 echo "Build output:"
