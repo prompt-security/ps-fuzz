@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-from dotenv import load_dotenv
-load_dotenv()
+import os
 import sys
 import colorama
-import os
+from dotenv import load_dotenv
+dotenv_path = os.path.join(os.getcwd(), '.env')
+load_dotenv(dotenv_path)
 from .chat_clients import *
 from .client_config import ClientConfig
 from .attack_config import AttackConfig
