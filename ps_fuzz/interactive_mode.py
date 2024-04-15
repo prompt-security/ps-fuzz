@@ -106,7 +106,7 @@ class DebugOptions:
         print("----------------------------------------------------")
         result = inquirer.prompt([
             inquirer.Text('debug_level',
-                message="Debug Level (0-3)",
+                message="Debug Level (0-2) (0=warnings and errors; 1 = normal; 2 = verbose)",
                 default=str(state.debug_level),
                 validate=lambda _, x: x.isdigit() and int(x) > 0
             ),
@@ -171,6 +171,8 @@ def interactive_shell(state: AppConfig):
         except KeyboardInterrupt:
             print("\nOperation cancelled by user.")
             continue
+        except ValueError as e:
+            logger.warning(f"{colorama.Fore.RED}{colorama.Style.BRIGHT}Wrong value:{colorama.Style.RESET_ALL} {e}")
         except Exception as e:
             logger.error(f"An error occurred: {e}", exc_info=True)
             break
