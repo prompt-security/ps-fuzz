@@ -30,7 +30,6 @@ def multi_line_editor(initial_text: str) -> str:
             style=Style.from_dict({
                 '':        'fg:ansicyan',
                 'prompt':  'fg:orange',
-                'hl':      'fg:white',
             }),
         )
     except KeyboardInterrupt:
