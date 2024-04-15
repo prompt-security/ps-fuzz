@@ -148,7 +148,6 @@ class AppConfig:
 
     @system_prompt.setter
     def system_prompt(self, value: str):
-        if not value: raise ValueError("System prompt cannot be empty")
         self.config_state['system_prompt'] = value
         self.save()
 
