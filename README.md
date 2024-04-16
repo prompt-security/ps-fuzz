@@ -111,6 +111,7 @@ We use a dynamic testing approach, where we get the necessary context from your 
 
 ## What’s next on the roadmap?
 
+- [ ]  In future releases, we'll enable Docker support and integrate GitHub Actions for testing in the CI/CD pipeline
 - [ ]  We’ll continuously add more attack types to ensure your GenAI apps stay ahead of the latest threats
 - [ ]  We’ll continue evolving the reporting capabilities to enrich insights and add smart recommendations on how to harden the system prompt
 - [ ]  We’ll be adding a Google Colab Notebook for added easy testing
