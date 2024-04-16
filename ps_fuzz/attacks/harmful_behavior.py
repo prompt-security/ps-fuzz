@@ -17,7 +17,7 @@ class TestHarmfulBehaviors(TestBase):
             client_config,
             attack_config,
             test_name = "harmful_behavior",
-            test_description = "Challenges the LLM with a dataset of harmful behavior prompts dataset"
+            test_description = "Challenges the LLM with a dataset of harmful behavior prompts"
         )
 
     def run(self) -> Generator[StatusUpdate, None, None]:

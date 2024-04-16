@@ -1,3 +1,4 @@
+import os
 from setuptools import setup, find_packages
 
 with open('README.md', 'r', encoding='utf-8') as fh:
@@ -5,13 +6,13 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setup(
     name="ps_fuzz",
-    version="1.0.0",
+    version=os.getenv('PKG_VERSION', '0.0.1'),
     author="Prompt Security",
     author_email="support@prompt.security",
     description="LLM and System Prompt vulnerability scanner tool",
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url="https://github.com/yourgithub/ps_fuzz",  # TODO: Adjust with actual URL
+    url="https://github.com/prompt-security/ps-fuzz",
     packages=find_packages(),
     package_data={
         'ps_fuzz': ['attack_data/*.csv'],
@@ -40,6 +41,8 @@ setup(
         "colorama==0.4.6",
         "prettytable==3.10.0",
         "pandas==2.2.2",
+        "inquirer==3.2.4",
+        "prompt-toolkit==3.0.43",
         "fastparquet==2024.2.0"
     ],
     extras_require={
@@ -47,7 +50,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'ps_fuzz=ps_fuzz.cli:main',
+            'prompt_security_fuzzer=ps_fuzz.cli:main',
         ],
     },
 )

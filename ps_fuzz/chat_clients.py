@@ -23,6 +23,10 @@ class ClientBase(ABC):
            The history is automatically updated during conversation.
         """
 
+class FakeChatClient(ClientBase):
+    def interact(self, history: MessageList, messages: MessageList) -> BaseMessage:
+        return "FakeChat response"
+
 # Specialized chat client based on langchain supported backends
 class ClientLangChain(ClientBase):
     "Chat model wrapper around LangChain"

@@ -76,6 +76,10 @@ class ChatModelInfo(object):
             s += f"    {param_name}: {param}\n"
         return s
 
+    @property
+    def short_doc(self):
+        return self.doc[:self.doc.find('\n')]
+
 def get_langchain_chat_models_info() -> Dict[str, Dict[str, Any]]:
     """
     Introspects a langchain library, extracting information about supported chat models and required/optional parameters

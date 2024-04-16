@@ -1,3 +1,4 @@
+from .app_config import AppConfig
 from .chat_clients import *
 from .client_config import ClientConfig
 from .attack_config import AttackConfig
@@ -6,8 +7,10 @@ from .test_base import TestBase
 from .attack_registry import instantiate_tests
 from .attack_loader import * # load and register attacks defined in 'attack/*.py'
 from .work_progress_pool import WorkProgressPool, ThreadSafeTaskIterator, ProgressWorker
-from .results_table import print_results
+from .interactive_chat import *
+from .results_table import print_table
 import colorama
+import pydantic.v1.error_wrappers
 import logging
 logger = logging.getLogger(__name__)
 
@@ -89,17 +92,17 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
     VULNERABLE = f"{RED}✘{RESET}"
     ERROR = f"{BRIGHT_YELLOW}⚠{RESET}"
 
-    print_results(
+    print_table(
         title = "Test results",
         headers = [
             "",
-            "Test",
+            "Attack Type",
             "Broken",
             "Resilient",
             "Errors",
             "Strength",
         ],
-        data = [
+        data = sorted([
             [
                 ERROR if test.status.error_count > 0 else RESILIENT if isResilient(test.status) else VULNERABLE,
                 f"{test.test_name + ' ':.<{50}}",
@@ -109,7 +112,7 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
                 simpleProgressBar(test.status.resilient_count, test.status.total_count, GREEN if isResilient(test.status) else RED),
             ]
             for test in tests
-        ],
+        ], key=lambda x: x[1]),
         footer_row = [
                 ERROR if all(test.status.error_count > 0 for test in tests) else RESILIENT if all(isResilient(test.status) for test in tests) else VULNERABLE,
                 f"{'Total (# tests): ':.<50}",
@@ -127,7 +130,10 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
     resilient_tests_count = sum(isResilient(test.status) for test in tests)
     total_tests_count = len(tests)
     resilient_tests_percentage = resilient_tests_count / total_tests_count * 100 if total_tests_count > 0 else 0
-    print(f"Your system prompt was resilient in {int(resilient_tests_percentage)}% ({resilient_tests_count} out of total {total_tests_count}) tests.")
+    print(f"Your system prompt passed {int(resilient_tests_percentage)}% ({resilient_tests_count} out of {total_tests_count}) of attack simulations.")
+    print()
+    print(f"To learn about the various attack types, please consult the help section and the Prompt Security Fuzzer GitHub README.")
+    print(f"You can also get a list of all available attack types by running the command '{BRIGHT}prompt_security_fuzzer --list-attacks{RESET}'.")
 
     # Print detailed test progress logs (TODO: select only some relevant representative entries and output to a "report" file, which is different from a debug .log file!)
     """
@@ -139,3 +145,37 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
             print(f"Success: {entry.success}")
             print(f"Additional info: {entry.additional_info}")
     """
+
+def run_interactive_chat(app_config: AppConfig):
+    # Print current app configuration
+    app_config.print_as_table()
+    target_system_prompt = app_config.system_prompt
+    try:
+        target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
+        interactive_chat(client=target_client, system_prompts=[target_system_prompt])
+    except (ModuleNotFoundError, pydantic.v1.error_wrappers.ValidationError) as e:
+        logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
+        return
+
+def run_fuzzer(app_config: AppConfig):
+    # Print current app configuration
+    app_config.print_as_table()
+    target_system_prompt = app_config.system_prompt
+    try:
+        target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
+    except (ModuleNotFoundError, pydantic.v1.error_wrappers.ValidationError) as e:
+        logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
+        return
+    client_config = ClientConfig(target_client, [target_system_prompt])
+
+    try:
+        attack_config = AttackConfig(
+            attack_client = ClientLangChain(app_config.attack_provider, model=app_config.attack_model, temperature=app_config.attack_temperature),
+            attack_prompts_count = app_config.num_attempts
+        )
+    except (ModuleNotFoundError, pydantic.v1.error_wrappers.ValidationError) as e:
+        logger.warning(f"Error accessing the Attack LLM provider {app_config.attack_provider} with model '{app_config.attack_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
+        return
+
+    # Run the fuzzer
+    fuzz_prompt_injections(client_config, attack_config, threads_count=app_config.num_threads)

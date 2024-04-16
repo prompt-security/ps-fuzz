@@ -7,7 +7,7 @@ RED = colorama.Fore.RED
 GREEN = colorama.Fore.GREEN
 BRIGHT_YELLOW = colorama.Fore.LIGHTYELLOW_EX + colorama.Style.BRIGHT
 
-def print_results(title, headers, data, footer_row=None):
+def print_table(title, headers, data, footer_row=None):
     print(f"{BRIGHT}{title}{RESET} ...")
     table = PrettyTable(
         align="l",
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     FAILED = f"{RED}✘{RESET}"
     ERROR = f"{BRIGHT_YELLOW}⚠{RESET}"
 
-    print_results(
+    print_table(
         title = "Test results simulated",
         headers = ["", "Test", "Succesful", "Unsuccesful", "Score (1-10)"],
         data = [
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         ]
     )
 
-    print_results(
+    print_table(
         title = "Test results simulated with footer",
         headers = ["", "Test", "Succesful", "Unsuccesful", "Score (1-10)"],
         data = [
