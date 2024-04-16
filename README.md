@@ -5,7 +5,7 @@
 </h1>
 
 <h2 align="center">
-  The open-source tool that will help you harden your GenAI applications!
+  The interactive open-source tool to help you you harden your GenAI applications
 </h2>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
