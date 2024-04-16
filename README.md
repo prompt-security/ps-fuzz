@@ -76,10 +76,17 @@ Using the Prompt Fuzzer will lead to the consumption of tokens.
 
 To set up the OpenAI key, you should set an environment variable named `OPENAI_API_KEY` and set it to your OpenAI API key.
 An easy way to add the key permanently is to create a file named '.env' in the current directory and set the `OPENAI_API_KEY` there.
+
+Example:
+```bash
+export OPENAI_API_KEY=sk-....
+prompt_security_fuzzer -b -d 3 your_system_prompt.txt
+```
+
 <a id="llm-providers"></a>
+## We're fully LLM agnostic
 
-We're fully LLM agnostic.
-
+The tool supports a large variety of LLM providers, such as OpenAI, VertexAI and Anthropic.
 
 ## Sample system prompts
 Run tests against the system prompt (in non-interactive batch mode):
