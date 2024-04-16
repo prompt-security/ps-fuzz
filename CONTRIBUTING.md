@@ -156,7 +156,25 @@ class TestHarmfulBehaviors(TestBase):
 
 #### 4. Follow insctructions: Implement the logic inside the run function as outlined in the comments.
 
-#### 5. Open a PR! Submit your changes for review by opening a pull request.
+#### 5. Add your attack file name to the attack loader file:
+```python
+from .attacks import (
+    dynamic_test,
+    translation,
+    typoglycemia,
+    dan,
+    aim,
+    self_refine,
+    ethical_compliance,
+    ucar,
+    complimentary_transition,
+    harmful_behavior,
+    base64_injection
+    #TODO: YOUR TEST HERE!
+)
+``` 
+
+#### 6. Open a PR! Submit your changes for review by opening a pull request.
 
 #### That’s all it takes to contribute a new test to the PS-Fuzz project!
 
