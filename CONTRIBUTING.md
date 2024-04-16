@@ -40,7 +40,7 @@ Install the project dependencies in editable mode (with the '-e' argument).
 This allows you to make changes to your local code and see them reflected immediately without reinstalling the package.
 
 ```bash
-pip install -e .[dev]
+pip install -e ".[dev]"
 ```
 
 ### Run tests
@@ -68,12 +68,12 @@ The tool would automatically recognize that the file is present and will try to 
 ### Running the Tool
 
 To run the tool from your development environment, you can use the command-line interface set up in the project.
-Since the package is installed in editable mode (e.g. via `pip install -e .[dev]`), you can run the tool directly from the source code without
+Since the package is installed in editable mode (e.g. via `pip install -e ".[dev]"`), you can run the tool directly from the source code without
 needing a separate installation step for testing changes.
 
 To execute the tool, use the following command:
 ```bash
-prompt_security_fuzzer --help
+prompt-security-fuzzer --help
 ```
 
 Or alternatively, execute directly from subdirectory:
@@ -176,7 +176,7 @@ from .attacks import (
 
 #### 6. Open a PR! Submit your changes for review by opening a pull request.
 
-#### That’s all it takes to contribute a new test to the PS-Fuzz project!
+#### That’s all it takes to contribute a new test to the Prompt Security Fuzzer project!
 
 ## Submitting a pull request
 

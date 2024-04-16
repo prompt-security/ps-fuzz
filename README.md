@@ -30,15 +30,24 @@
 
 ## 🚀 Get started
 
-1. Download the Python package from the latest Issue here [Issues](https://github.com/prompt-security/ps-fuzz/releases)
+1. Install the Fuzzer package using pip:
+```bash
+pip install prompt-security-fuzzer
+```
+You can also visit the [package page](https://pypi.org/project/prompt-security-fuzzer/) on PyPi
+
+Alternatively, download the Python package from the latest Issue here [Issues](https://github.com/prompt-security/ps-fuzz/releases)
+
 2. Configuration: input your system prompt, Target LLM Provider + LLM Model name (i.e. the one your GenAI app is using). The default is OpenAI provider and "gpt-3.5-turbo" model.
+
 3. Start testing
+
 4. Test yourself with the Playground! Iterate as many times are you like until your system prompt is secure.
 
 ### 💻 Usage
 
 ```
-usage: prompt_security_fuzzer [-h] [--list-providers] [--list-attacks] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL] [--target-provider TARGET_PROVIDER]
+usage: prompt-security-fuzzer [-h] [--list-providers] [--list-attacks] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL] [--target-provider TARGET_PROVIDER]
                               [--target-model TARGET_MODEL] [-n NUM_ATTEMPTS] [-t NUM_THREADS] [-a ATTACK_TEMPERATURE] [-d DEBUG_LEVEL] [-b]
                               [system_prompt_file]
 
@@ -85,10 +94,10 @@ We're fully LLM agnostic.
 ## 🔫 Sample system prompts
 Run tests against the system prompt (in non-interactive batch mode):
 ```
-prompt_security_fuzzer.py -b ./system_prompt.examples/medium_system_prompt.txt
+prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt
 ```
 
-The system prompt examples (of various strengths) can be found in the subdirectory `system_prompt.examples`
+The system prompt examples (of various strengths) can be found in the subdirectory `system_prompt.examples` in the sources.
 
 
 <a id="usage"></a>
