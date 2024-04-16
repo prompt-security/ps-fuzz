@@ -1,7 +1,7 @@
 <div align="center">
 
 
-# ![](resources/prompt-icon.svg) Prompt Security Fuzzer
+# ![prompt-icon](resources/prompt-icon.svg) Prompt Security Fuzzer
 
 ### **Test your system prompt and make your GenAI apps safe and secure**
 </div>
@@ -16,7 +16,7 @@ The Fuzzer also includes a Playground chat interface, giving you the chance to i
 <br>
 Brought to you by Prompt Security, the One-Stop Platform for GenAI Security.
 <br><br>
-<img src="https://assets-global.website-files.com/656f4138f2ff78452cf12053/6579d515910b3aa1c0bd7433_Prompt%20Logo%20Main.svg">
+<img src="/resources/Black + Color.png" height=90>
 
 <br><br>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -122,3 +122,6 @@ We use a dynamic testing approach, where we get the necessary context from your 
 Interested in contributing to the development of our tools? Great! For a guide on making your first contribution, please see our [Contributing Guide](https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md#get-started-with-your-first-contribution-adding-a-new-test). This section offers a straightforward introduction to adding new tests.
 
 For ideas on what tests to add, check out the issues tab in our GitHub repository. Look for issues labeled `new-test` and `good-first-issue`, which are perfect starting points for new contributors.
+
+## 🎬 Demo video
+[![Watch the video](https://img.youtube.com/vi/8RtqtPI_bsE/hqdefault.jpg)](https://www.youtube.com/watch?v=8RtqtPI_bsE)
