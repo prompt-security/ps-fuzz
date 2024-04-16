@@ -28,11 +28,46 @@ Brought to you by Prompt Security, the One-Stop Platform for GenAI Security.
 
 
 ## Get started
-1. Download the repository
+
+1. Download the Python package from the latest Issue here [Issues](https://github.com/prompt-security/ps-fuzz/releases)
 2. Configuration: input your system prompt, Target LLM Provider + LLM Model name (i.e. the one your GenAI app is using). The default is OpenAI provider and "gpt-3.5-turbo" model.
 3. Start testing
 4. Test yourself with the Playground! Iterate as many times are you like until your system prompt is secure.
 
+### Usage
+
+```
+usage: prompt_security_fuzzer [-h] [--list-providers] [--list-attacks] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL] [--target-provider TARGET_PROVIDER]
+                              [--target-model TARGET_MODEL] [-n NUM_ATTEMPTS] [-t NUM_THREADS] [-a ATTACK_TEMPERATURE] [-d DEBUG_LEVEL] [-b]
+                              [system_prompt_file]
+
+Prompt Security LLM Prompt Injection Fuzzer
+
+positional arguments:
+  system_prompt_file    Filename containing the system prompt
+
+options:
+  -h, --help            show this help message and exit
+  --list-providers      List available providers and exit
+  --list-attacks        List available attacks and exit
+  --attack-provider ATTACK_PROVIDER
+                        Attack provider
+  --attack-model ATTACK_MODEL
+                        Attack model
+  --target-provider TARGET_PROVIDER
+                        Target provider
+  --target-model TARGET_MODEL
+                        Target model
+  -n NUM_ATTEMPTS, --num-attempts NUM_ATTEMPTS
+                        Number of different attack prompts
+  -t NUM_THREADS, --num-threads NUM_THREADS
+                        Number of worker threads
+  -a ATTACK_TEMPERATURE, --attack-temperature ATTACK_TEMPERATURE
+                        Temperature for attack model
+  -d DEBUG_LEVEL, --debug-level DEBUG_LEVEL
+                        Debug level (0-2)
+  -b, --batch           Run the fuzzer in unattended (batch) mode, bypassing the interactive steps
+```
 
 
 
