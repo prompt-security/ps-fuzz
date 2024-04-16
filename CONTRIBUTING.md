@@ -110,6 +110,56 @@ git commit -m "Add a brief description of your change"
 git push origin your-branch-name
 ```
 
+## Get Started with Your First Contribution: Adding a New Test
+
+The easist way to contribute to ps-fuzz project is by creating a new test! You can see an example PR of a test here: [](PR #1)
+This can be easily acheived by:
+
+#### 1. Create a Test File
+* Navigate to the attacks directory. 
+* Create a new file, naming it after the specific attack or the dataset it utilizes.
+
+#### 2. Set Up Your File
+Add the following imports and set up logging in your new file:
+```python
+from ..chat_clients import ChatSession
+from ..client_config import ClientConfig
+from ..attack_config import AttackConfig
+from ..test_base import TestBase, StatusUpdate
+from ..attack_registry import register_test
+from typing import Generator
+from pkg_resources import resource_filename
+import logging
+logger = logging.getLogger(__name__)
+```
+
+#### 3. Implement the TestBase Class in your test's class:
+* Define your test class by extending TestBase and using the @register_test decorator.
+* Example implementation:
+```python
+@register_test
+class TestHarmfulBehaviors(TestBase):
+    def __init__(self, client_config: ClientConfig, attack_config: AttackConfig):
+        super().__init__(
+            client_config,
+            attack_config,
+            test_name = "your_test_name_here",
+            test_description = "Describe your test thoroughly here"
+        )
+
+    def run(self) -> Generator[StatusUpdate, None, None]:
+        # Generate or retrieve all necessary attack prompts for the test
+        # Send them to the model
+        # Process the results to determine which attacks succeeded and which failed
+        # That's it!
+```
+
+#### 4. Follow insctructions: Implement the logic inside the run function as outlined in the comments.
+
+#### 5. Open a PR! Submit your changes for review by opening a pull request.
+
+#### That’s all it takes to contribute a new test to the PS-Fuzz project!
+
 ## Submitting a pull request
 
 1. Update your branch
