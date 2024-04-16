@@ -4,7 +4,6 @@ import sys, os
 import colorama
 from .util import wrap_text
 from .results_table import print_table
-from .ps_logging import setup_logging
 import logging
 logger = logging.getLogger(__name__)
 
@@ -17,8 +16,7 @@ class AppConfig:
         'num_attempts': 3,
         'num_threads': 4,
         'attack_temperature': 0.6,
-        'debug_level': 1,
-        'system_prompt': ''
+        'system_prompt': '',
     }
 
     def __init__(self, config_state_file: str):
@@ -129,17 +127,6 @@ class AppConfig:
     def num_threads(self, value: int):
         if value < 1: raise ValueError("Number of threads must be at least 1")
         self.config_state['num_threads'] = value
-        self.save()
-
-    @property
-    def debug_level(self) -> int:
-        return self.config_state['debug_level']
-
-    @debug_level.setter
-    def debug_level(self, value: int):
-        if not (0 <= value <= 2): raise ValueError("Debug level must be between 0 and 2")
-        self.config_state['debug_level'] = value
-        setup_logging(value) # Update logging level based on configured debug level
         self.save()
 
     @property

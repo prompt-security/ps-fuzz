@@ -5,6 +5,7 @@ import colorama
 from dotenv import load_dotenv
 dotenv_path = os.path.join(os.getcwd(), '.env')
 load_dotenv(dotenv_path)
+from .ps_logging import setup_logging
 from .chat_clients import *
 from .client_config import ClientConfig
 from .attack_config import AttackConfig
@@ -45,6 +46,9 @@ def main():
         for test_name, test_description in [(cls.test_name, cls.test_description) for cls in tests]:
             print(f"  {BRIGHT}{test_name}{RESET}: {test_description}")
         sys.exit(0)
+
+    # Setup debug level (default 1)
+    setup_logging(args.debug_level if args.debug_level is not None else 1)
 
     # Load application config from file (if exists)
     app_config = AppConfig(APP_CONFIG_FILE)
