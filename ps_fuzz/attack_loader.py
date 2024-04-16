@@ -9,4 +9,5 @@ from .attacks import (
     ucar,
     complimentary_transition,
     harmful_behavior,
+    base64_injection
 )
