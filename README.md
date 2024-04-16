@@ -115,3 +115,9 @@ We use a dynamic testing approach, where we get the necessary context from your 
 - [ ]  We’ll continue evolving the reporting capabilities to enrich insights and add smart recommendations on how to harden the system prompt
 - [ ]  We’ll be adding a Google Colab Notebook for added easy testing
 - [ ]  Turn this into a community project! We want this to be useful to everyone building GenAI applications. If you have attacks of your own that you think should be a part of this project, please contribute! This is how: https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md
+
+## Contributing
+
+Interested in contributing to the development of our tools? Great! For a guide on making your first contribution, please see our [Contributing Guide](https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md#get-started-with-your-first-contribution-adding-a-new-test). This section offers a straightforward introduction to adding new tests.
+
+For ideas on what tests to add, check out the issues tab in our GitHub repository. Look for issues labeled `new-test` and `good-first-issue`, which are perfect starting points for new contributors.
