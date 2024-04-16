@@ -14,6 +14,7 @@ from .app_config import AppConfig, parse_cmdline_args
 from .interactive_mode import interactive_shell
 from .prompt_injection_fuzzer import run_fuzzer
 from .logo import print_logo
+from .util import wrap_text
 
 # Initialize colorama
 colorama.init()
@@ -43,8 +44,8 @@ def main():
         attack_config = AttackConfig(FakeChatClient(), 1)
         tests = instantiate_tests(client_config, attack_config)
         print("Available attacks:")
-        for test_name, test_description in [(cls.test_name, cls.test_description) for cls in tests]:
-            print(f"  {BRIGHT}{test_name}{RESET}: {test_description}")
+        for test_name, test_description in sorted([(cls.test_name, cls.test_description) for cls in tests]):
+            print(f"{BRIGHT}{test_name}{RESET}:\n{wrap_text(test_description)}")
         sys.exit(0)
 
     # Setup debug level (default 1)

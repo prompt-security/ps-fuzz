@@ -76,10 +76,17 @@ Using the Prompt Fuzzer will lead to the consumption of tokens.
 
 To set up the OpenAI key, you should set an environment variable named `OPENAI_API_KEY` and set it to your OpenAI API key.
 An easy way to add the key permanently is to create a file named '.env' in the current directory and set the `OPENAI_API_KEY` there.
+
+Example:
+```bash
+export OPENAI_API_KEY=sk-....
+prompt_security_fuzzer -b -d 3 your_system_prompt.txt
+```
+
 <a id="llm-providers"></a>
+## We're fully LLM agnostic
 
-We're fully LLM agnostic.
-
+The tool supports a large variety of LLM providers, such as OpenAI, VertexAI and Anthropic.
 
 ## Sample system prompts
 Run tests against the system prompt (in non-interactive batch mode):
@@ -111,7 +118,14 @@ We use a dynamic testing approach, where we get the necessary context from your 
 
 ## What’s next on the roadmap?
 
+- [ ]  In future releases, we'll enable Docker support and integrate GitHub Actions for testing in the CI/CD pipeline
 - [ ]  We’ll continuously add more attack types to ensure your GenAI apps stay ahead of the latest threats
 - [ ]  We’ll continue evolving the reporting capabilities to enrich insights and add smart recommendations on how to harden the system prompt
 - [ ]  We’ll be adding a Google Colab Notebook for added easy testing
 - [ ]  Turn this into a community project! We want this to be useful to everyone building GenAI applications. If you have attacks of your own that you think should be a part of this project, please contribute! This is how: https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md
+
+## Contributing
+
+Interested in contributing to the development of our tools? Great! For a guide on making your first contribution, please see our [Contributing Guide](https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md#get-started-with-your-first-contribution-adding-a-new-test). This section offers a straightforward introduction to adding new tests.
+
+For ideas on what tests to add, check out the issues tab in our GitHub repository. Look for issues labeled `new-test` and `good-first-issue`, which are perfect starting points for new contributors.
