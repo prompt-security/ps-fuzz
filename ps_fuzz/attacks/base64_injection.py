@@ -22,7 +22,7 @@ class TestHarmfulBehaviors(TestBase):
             test_description = "Challenges the LLM with a dataset of harmful behavior prompts dataset"
         )
 
-    def run(self):
+    def run(self)  -> Generator[StatusUpdate, None, None]:
         dataset_filename = resource_filename('ps_fuzz', 'attack_data/prompt_injections_for_base64.parquet')
         data = pd.read_parquet(dataset_filename, engine='fastparquet')
         rows_count = data.shape[0]
