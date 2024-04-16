@@ -15,7 +15,7 @@ setup(
     url="https://github.com/prompt-security/ps-fuzz",
     packages=find_packages(),
     package_data={
-        'ps_fuzz': ['attack_data/*.csv'],
+        'ps_fuzz': ['attack_data/*'],
     },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
