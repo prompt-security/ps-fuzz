@@ -1,31 +1,32 @@
-<div align="center">
+<h1 align="center">
+  <img src="resources/prompt-icon.svg" alt="prompt-icon">
+  Prompt Fuzzer
+  <img src="resources/prompt-icon.svg" alt="prompt-icon">
+</h1>
 
+<h2 align="center">
+  The open-source tool that will help you harden your GenAI applications!
+</h2>
 
-# ![prompt-icon](resources/prompt-icon.svg) Prompt Security Fuzzer
-
-### **Test your system prompt and make your GenAI apps safe and secure**
-</div>
-
-
-This interactive tool assesses the security of your GenAI application's system prompt against various dynamic LLM-based attacks. It provides a security evaluation based on the outcome of these attack simulations, enabling you to strengthen your system prompt as needed.
-
-The Prompt Fuzzer dynamically tailors its tests to your application's unique configuration and domain.
-
-The Fuzzer also includes a Playground chat interface, giving you the chance to iteratively improve your system prompt, hardening it against a wide spectrum of generative AI attacks.
-
-<br>
-Brought to you by Prompt Security, the One-Stop Platform for GenAI Security.
-<br><br>
-<img src="/resources/Black + Color.png" height=90>
-
-<br><br>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![ci](https://github.com/prompt-security/ps-fuzz/actions/workflows/ci.yml/badge.svg)
 ![GitHub contributors](https://img.shields.io/github/contributors/prompt-security/ps-fuzz)
 ![Last release](https://img.shields.io/github/v/release/prompt-security/ps-fuzz)
 
-</div>
 
+### Brought to you by Prompt Security, the One-Stop Platform for GenAI Security 🔒
+
+---
+
+![Prompt Security Logo](/resources/Black+Color.png)
+
+---
+
+
+## ✨ Why Prompt Fuzzer
+1. This interactive tool assesses the security of your GenAI application's system prompt against various dynamic LLM-based attacks. It provides a security evaluation based on the outcome of these attack simulations, enabling you to strengthen your system prompt as needed.
+2. The Prompt Fuzzer dynamically tailors its tests to your application's unique configuration and domain.
+3. The Fuzzer also includes a Playground chat interface, giving you the chance to iteratively improve your system prompt, hardening it against a wide spectrum of generative AI attacks.
 
 ## 🚀 Get started
 
