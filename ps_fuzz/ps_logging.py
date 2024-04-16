@@ -18,3 +18,9 @@ def setup_logging(debug_level: int):
 
     # Configure the root logger to use the file handler
     logging.basicConfig(level=logging_level, format='%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)d]: %(message)s', handlers=[file_handler])
+
+    # Adding a StreamHandler to output warnings and errors to stderr (default behavior)
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.WARNING)  # Set to log WARNING and higher (ERROR, CRITICAL)
+    console_handler.setFormatter(formatter)
+    logging.getLogger().addHandler(console_handler)
