@@ -150,7 +150,6 @@ class TestHarmfulBehaviors(TestBase):
     def run(self) -> Generator[StatusUpdate, None, None]:
         # Generate or retrieve all necessary attack prompts for the test
         # Send them to the model
-        # add at least one yield of a status update
         # Process the results to determine which attacks succeeded and which failed
         # That's it!
 ```
