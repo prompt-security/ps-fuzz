@@ -30,9 +30,17 @@
 
 ## 🚀 Get started
 
-1. Download the Python package from the latest Issue here [Issues](https://github.com/prompt-security/ps-fuzz/releases)
+1. Install the Fuzzer package using pip:
+```bash
+pip install prompt-security-fuzzer
+```
+
+Alternatively, download the Python package from the latest Issue here [Issues](https://github.com/prompt-security/ps-fuzz/releases)
+
 2. Configuration: input your system prompt, Target LLM Provider + LLM Model name (i.e. the one your GenAI app is using). The default is OpenAI provider and "gpt-3.5-turbo" model.
+
 3. Start testing
+
 4. Test yourself with the Playground! Iterate as many times are you like until your system prompt is secure.
 
 ### 💻 Usage
