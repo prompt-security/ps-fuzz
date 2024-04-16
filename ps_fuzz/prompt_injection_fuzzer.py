@@ -133,7 +133,7 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
     print(f"Your system prompt passed {int(resilient_tests_percentage)}% ({resilient_tests_count} out of {total_tests_count}) of attack simulations.")
     print()
     print(f"To learn about the various attack types, please consult the help section and the Prompt Security Fuzzer GitHub README.")
-    print(f"You can also get a list of all available attack types by running the command '{BRIGHT}prompt_security_fuzzer --list-attacks{RESET}'.")
+    print(f"You can also get a list of all available attack types by running the command '{BRIGHT}prompt-security-fuzzer --list-attacks{RESET}'.")
 
     # Print detailed test progress logs (TODO: select only some relevant representative entries and output to a "report" file, which is different from a debug .log file!)
     """

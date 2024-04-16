@@ -38,7 +38,7 @@
 ### 💻 Usage
 
 ```
-usage: prompt_security_fuzzer [-h] [--list-providers] [--list-attacks] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL] [--target-provider TARGET_PROVIDER]
+usage: prompt-security-fuzzer [-h] [--list-providers] [--list-attacks] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL] [--target-provider TARGET_PROVIDER]
                               [--target-model TARGET_MODEL] [-n NUM_ATTEMPTS] [-t NUM_THREADS] [-a ATTACK_TEMPERATURE] [-d DEBUG_LEVEL] [-b]
                               [system_prompt_file]
 
@@ -85,10 +85,10 @@ We're fully LLM agnostic.
 ## 🔫 Sample system prompts
 Run tests against the system prompt (in non-interactive batch mode):
 ```
-prompt_security_fuzzer.py -b ./system_prompt.examples/medium_system_prompt.txt
+prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt
 ```
 
-The system prompt examples (of various strengths) can be found in the subdirectory `system_prompt.examples`
+The system prompt examples (of various strengths) can be found in the subdirectory `system_prompt.examples` in the sources.
 
 
 <a id="usage"></a>
