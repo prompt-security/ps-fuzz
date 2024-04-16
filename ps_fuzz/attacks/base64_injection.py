@@ -18,7 +18,7 @@ class TestBase64Injection(TestBase):
         super().__init__(
             client_config,
             attack_config,
-            test_name = "base64 injection",
+            test_name = "base64_injection",
             test_description = "Challenges the LLM with a dataset of prompt injections, encoded into base64"
         )
 
