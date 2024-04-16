@@ -1,40 +1,41 @@
-<div align="center">
+<h1 align="center">
+  <img src="resources/prompt-icon.svg" alt="prompt-icon">
+  Prompt Fuzzer
+  <img src="resources/prompt-icon.svg" alt="prompt-icon">
+</h1>
 
+<h2 align="center">
+  The open-source tool that will help you harden your GenAI applications!
+</h2>
 
-# Prompt Security Fuzzer
-
-### **Test your system prompt and make your GenAI apps safe and secure**
-</div>
-
-
-This interactive tool assesses the security of your GenAI application's system prompt against various dynamic LLM-based attacks. It provides a security evaluation based on the outcome of these attack simulations, enabling you to strengthen your system prompt as needed.
-
-The Prompt Fuzzer dynamically tailors its tests to your application's unique configuration and domain.
-
-The Fuzzer also includes a Playground chat interface, giving you the chance to iteratively improve your system prompt, hardening it against a wide spectrum of generative AI attacks.
-
-<br>
-Brought to you by Prompt Security, the One-Stop Platform for GenAI Security.
-<br><br>
-<img src="https://assets-global.website-files.com/656f4138f2ff78452cf12053/6579d515910b3aa1c0bd7433_Prompt%20Logo%20Main.svg">
-
-<br><br>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![ci](https://github.com/prompt-security/ps-fuzz/actions/workflows/ci.yml/badge.svg)
 ![GitHub contributors](https://img.shields.io/github/contributors/prompt-security/ps-fuzz)
 ![Last release](https://img.shields.io/github/v/release/prompt-security/ps-fuzz)
 
-</div>
+
+### Brought to you by Prompt Security, the One-Stop Platform for GenAI Security 🔒
+
+---
+
+![Prompt Security Logo](/resources/Black+Color.png)
+
+---
 
 
-## Get started
+## ✨ Why Prompt Fuzzer
+1. This interactive tool assesses the security of your GenAI application's system prompt against various dynamic LLM-based attacks. It provides a security evaluation based on the outcome of these attack simulations, enabling you to strengthen your system prompt as needed.
+2. The Prompt Fuzzer dynamically tailors its tests to your application's unique configuration and domain.
+3. The Fuzzer also includes a Playground chat interface, giving you the chance to iteratively improve your system prompt, hardening it against a wide spectrum of generative AI attacks.
+
+## 🚀 Get started
 
 1. Download the Python package from the latest Issue here [Issues](https://github.com/prompt-security/ps-fuzz/releases)
 2. Configuration: input your system prompt, Target LLM Provider + LLM Model name (i.e. the one your GenAI app is using). The default is OpenAI provider and "gpt-3.5-turbo" model.
 3. Start testing
 4. Test yourself with the Playground! Iterate as many times are you like until your system prompt is secure.
 
-### Usage
+### 💻 Usage
 
 ```
 usage: prompt_security_fuzzer [-h] [--list-providers] [--list-attacks] [--attack-provider ATTACK_PROVIDER] [--attack-model ATTACK_MODEL] [--target-provider TARGET_PROVIDER]
@@ -71,24 +72,17 @@ options:
 
 
 
-## Know before you test
+## 💡 Know before you test
 Using the Prompt Fuzzer will lead to the consumption of tokens.
 
 To set up the OpenAI key, you should set an environment variable named `OPENAI_API_KEY` and set it to your OpenAI API key.
 An easy way to add the key permanently is to create a file named '.env' in the current directory and set the `OPENAI_API_KEY` there.
-
-Example:
-```bash
-export OPENAI_API_KEY=sk-....
-prompt_security_fuzzer -b -d 3 your_system_prompt.txt
-```
-
 <a id="llm-providers"></a>
-## We're fully LLM agnostic
 
-The tool supports a large variety of LLM providers, such as OpenAI, VertexAI and Anthropic.
+We're fully LLM agnostic.
 
-## Sample system prompts
+
+## 🔫 Sample system prompts
 Run tests against the system prompt (in non-interactive batch mode):
 ```
 prompt_security_fuzzer.py -b ./system_prompt.examples/medium_system_prompt.txt
@@ -98,7 +92,7 @@ The system prompt examples (of various strengths) can be found in the subdirecto
 
 
 <a id="usage"></a>
-## Simulated Attack Details
+## ⚔️ Simulated Attack Details
 We use a dynamic testing approach, where we get the necessary context from your System Prompt and based on that adapt the fuzzing process.
 
 - **Amnesia**: Causes the LLM to forget or disregard system prompt instructions, leading to unrelated outputs.
@@ -116,7 +110,7 @@ We use a dynamic testing approach, where we get the necessary context from your 
 - **Complimentary Transition**: Tests ability to maintain content standards when switching topics after a compliment.
 - **Harmful Behavior**: Challenges the LLM with prompts from a harmful behavior dataset.
 
-## What’s next on the roadmap?
+## 🚧 What’s next on the roadmap?
 
 - [ ]  In future releases, we'll enable Docker support and integrate GitHub Actions for testing in the CI/CD pipeline
 - [ ]  We’ll continuously add more attack types to ensure your GenAI apps stay ahead of the latest threats
@@ -124,8 +118,11 @@ We use a dynamic testing approach, where we get the necessary context from your 
 - [ ]  We’ll be adding a Google Colab Notebook for added easy testing
 - [ ]  Turn this into a community project! We want this to be useful to everyone building GenAI applications. If you have attacks of your own that you think should be a part of this project, please contribute! This is how: https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md
 
-## Contributing
+## 🍻 Contributing
 
 Interested in contributing to the development of our tools? Great! For a guide on making your first contribution, please see our [Contributing Guide](https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md#get-started-with-your-first-contribution-adding-a-new-test). This section offers a straightforward introduction to adding new tests.
 
 For ideas on what tests to add, check out the issues tab in our GitHub repository. Look for issues labeled `new-test` and `good-first-issue`, which are perfect starting points for new contributors.
+
+## 🎬 Demo video
+[![Watch the video](https://img.youtube.com/vi/8RtqtPI_bsE/hqdefault.jpg)](https://www.youtube.com/watch?v=8RtqtPI_bsE)
