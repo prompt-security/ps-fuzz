@@ -19,7 +19,7 @@ Brought to you by Prompt Security, the One-Stop Platform for GenAI Security.
 <img src="https://assets-global.website-files.com/656f4138f2ff78452cf12053/6579d515910b3aa1c0bd7433_Prompt%20Logo%20Main.svg">
 
 <br><br>
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![ci](https://github.com/prompt-security/ps-fuzz/actions/workflows/ci.yml/badge.svg)
 ![GitHub contributors](https://img.shields.io/github/contributors/prompt-security/ps-fuzz)
 ![Last release](https://img.shields.io/github/v/release/prompt-security/ps-fuzz)
