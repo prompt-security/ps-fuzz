@@ -13,13 +13,13 @@ import sys
 logger = logging.getLogger(__name__)
 
 @register_test
-class TestHarmfulBehaviors(TestBase):
+class TestBase64Injection(TestBase):
     def __init__(self, client_config: ClientConfig, attack_config: AttackConfig):
         super().__init__(
             client_config,
             attack_config,
-            test_name = "harmful_behavior",
-            test_description = "Challenges the LLM with a dataset of harmful behavior prompts dataset"
+            test_name = "base64 injection",
+            test_description = "Challenges the LLM with a dataset of prompt injections, encoded into base64"
         )
 
     def run(self)  -> Generator[StatusUpdate, None, None]:
