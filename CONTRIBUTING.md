@@ -112,12 +112,12 @@ git push origin your-branch-name
 
 ## Get Started with Your First Contribution: Adding a New Test
 
-The easist way to contribute to ps-fuzz project is by creating a new test! You can see an example PR of a test here: [](PR #1)
+The easist way to contribute to ps-fuzz project is by creating a new test! You can see an example PR of a test here: [Contribute new test - base64_injection!](https://github.com/prompt-security/ps-fuzz/pull/19)
 This can be easily acheived by:
 
 #### 1. Create a Test File
 * Navigate to the attacks directory. 
-* Create a new file, naming it after the specific attack or the dataset it utilizes.
+* Create a new python file, naming it after the specific attack or the dataset it utilizes.
 
 #### 2. Set Up Your File
 Add the following imports and set up logging in your new file:
