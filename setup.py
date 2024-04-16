@@ -40,6 +40,7 @@ setup(
         "colorama==0.4.6",
         "prettytable==3.10.0",
         "pandas==2.2.2",
+        "fastparquet==2024.2.0"
     ],
     extras_require={
         "dev": ["pytest==7.4.4"]
