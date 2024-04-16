@@ -73,7 +73,7 @@ needing a separate installation step for testing changes.
 
 To execute the tool, use the following command:
 ```bash
-prompt_security_fuzzer --help
+prompt-security-fuzzer --help
 ```
 
 Or alternatively, execute directly from subdirectory:
@@ -176,7 +176,7 @@ from .attacks import (
 
 #### 6. Open a PR! Submit your changes for review by opening a pull request.
 
-#### That’s all it takes to contribute a new test to the PS-Fuzz project!
+#### That’s all it takes to contribute a new test to the Prompt Security Fuzzer project!
 
 ## Submitting a pull request
 

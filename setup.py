@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
 setup(
-    name="ps_fuzz",
+    name="prompt-security-fuzzer",
     version=os.getenv('PKG_VERSION', '0.0.1'),
     author="Prompt Security",
     author_email="support@prompt.security",
@@ -50,7 +50,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'prompt_security_fuzzer=ps_fuzz.cli:main',
+            'prompt-security-fuzzer=ps_fuzz.cli:main',
         ],
     },
+    license="MIT",
 )

@@ -2,7 +2,7 @@ venv
 .env
 __pycache__
 *.egg-info/
-prompt_security_fuzzer.log
+prompt-security-fuzzer.log
 .prompt-security-fuzzer-config.json
 .pytest_cache
 build/
