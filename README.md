@@ -34,6 +34,7 @@
 ```bash
 pip install prompt-security-fuzzer
 ```
+You can also visit the [package page](https://pypi.org/project/prompt-security-fuzzer/) on PyPi
 
 Alternatively, download the Python package from the latest Issue here [Issues](https://github.com/prompt-security/ps-fuzz/releases)
 
