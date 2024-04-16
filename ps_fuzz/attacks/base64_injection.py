@@ -9,6 +9,7 @@ import pandas as pd
 from pkg_resources import resource_filename # for loading attack data file packaged with the library
 import logging
 import base64
+import sys
 logger = logging.getLogger(__name__)
 
 @register_test
