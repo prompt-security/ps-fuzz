@@ -1,7 +1,7 @@
 <div align="center">
 
 
-# Prompt Security Fuzzer
+# ![](resources/prompt-icon.svg) Prompt Security Fuzzer
 
 ### **Test your system prompt and make your GenAI apps safe and secure**
 </div>
