@@ -11,7 +11,7 @@ This interactive tool assesses the security of your GenAI application's system p
 
 The Prompt Fuzzer dynamically tailors its tests to your application's unique configuration and domain.
 
-The Fuzzer also includes a Playground chat interface, giving you the chance iteratively improve your system prompt, hardening it against a wide spectrum of generative AI attacks.
+The Fuzzer also includes a Playground chat interface, giving you the chance to iteratively improve your system prompt, hardening it against a wide spectrum of generative AI attacks.
 
 <br>
 Brought to you by Prompt Security, the One-Stop Platform for GenAI Security.
@@ -20,9 +20,9 @@ Brought to you by Prompt Security, the One-Stop Platform for GenAI Security.
 
 <br><br>
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Documentation Status](https://readthedocs.org/projects/prompt-security/badge/?version=latest)](http://prompt-security-fuzzer.readthedocs.io/en/latest/?badge=latest)
-[![PyPI](https://badge.fury.io/py/prompt-security.svg)](https://badge.fury.io/py/prompt-security)
-![Python package](https://github.com/prompt-security/ps-fuzz/actions/workflows/tests.yml/badge.svg)
+![ci](https://github.com/prompt-security/ps-fuzz/actions/workflows/ci.yml/badge.svg)
+![GitHub contributors](https://img.shields.io/github/contributors/prompt-security/ps-fuzz)
+![Last release](https://img.shields.io/github/v/release/prompt-security/ps-fuzz)
 
 </div>
 
