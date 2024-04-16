@@ -43,7 +43,6 @@ To set up the OpenAI key, you should set an environment variable named `OPENAI_A
 An easy way to add the key permanently is to create a file named '.env' in the current directory and set the `OPENAI_API_KEY` there.
 <a id="llm-providers"></a>
 
-## Supported LLM Providers
 We're fully LLM agnostic.
 
 
