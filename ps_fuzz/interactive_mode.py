@@ -53,7 +53,6 @@ class MainMenu:
             ['Fuzzer Configuration', None, FuzzerOptions],
             ['Target LLM Configuration', None, TargetLLMOptions],
             ['Attack LLM Configuration', None, AttackLLMOptions],
-            ['Debug Level', None, DebugOptions],
             ['Show all configuration', show_all_config, MainMenu],
             ['Exit', None, None],
         ]
@@ -97,22 +96,6 @@ class FuzzerOptions:
         ])
         if result is None: return  # Handle prompt cancellation concisely
         state.num_attempts = int(result['num_attempts'])
-        return MainMenu
-
-class DebugOptions:
-    @classmethod
-    def show(cls, state: AppConfig):
-        print("Debug Options: Review and modify the debug log level")
-        print("----------------------------------------------------")
-        result = inquirer.prompt([
-            inquirer.Text('debug_level',
-                message="Debug Level (0-2) (0=warnings and errors; 1 = normal; 2 = verbose)",
-                default=str(state.debug_level),
-                validate=lambda _, x: x.isdigit() and int(x) > 0
-            ),
-        ])
-        if result is None: return  # Handle prompt cancellation concisely
-        state.debug_level = int(result['debug_level'])
         return MainMenu
 
 class TargetLLMOptions:
