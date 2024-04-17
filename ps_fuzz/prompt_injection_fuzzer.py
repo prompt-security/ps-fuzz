@@ -10,7 +10,7 @@ from .work_progress_pool import WorkProgressPool, ThreadSafeTaskIterator, Progre
 from .interactive_chat import *
 from .results_table import print_table
 import colorama
-import pydantic.v1.error_wrappers
+from pydantic.error_wrappers import ValidationError
 import logging
 logger = logging.getLogger(__name__)
 
@@ -153,7 +153,7 @@ def run_interactive_chat(app_config: AppConfig):
     try:
         target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
         interactive_chat(client=target_client, system_prompts=[target_system_prompt])
-    except (ModuleNotFoundError, pydantic.v1.error_wrappers.ValidationError) as e:
+    except (ModuleNotFoundError, ValidationError) as e:
         logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
 
@@ -163,7 +163,7 @@ def run_fuzzer(app_config: AppConfig):
     target_system_prompt = app_config.system_prompt
     try:
         target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
-    except (ModuleNotFoundError, pydantic.v1.error_wrappers.ValidationError) as e:
+    except (ModuleNotFoundError, ValidationError) as e:
         logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
     client_config = ClientConfig(target_client, [target_system_prompt])
@@ -173,7 +173,7 @@ def run_fuzzer(app_config: AppConfig):
             attack_client = ClientLangChain(app_config.attack_provider, model=app_config.attack_model, temperature=app_config.attack_temperature),
             attack_prompts_count = app_config.num_attempts
         )
-    except (ModuleNotFoundError, pydantic.v1.error_wrappers.ValidationError) as e:
+    except (ModuleNotFoundError, ValidationError) as e:
         logger.warning(f"Error accessing the Attack LLM provider {app_config.attack_provider} with model '{app_config.attack_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
 
