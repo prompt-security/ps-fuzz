@@ -18,6 +18,10 @@
 <center>
 
 ##### Brought to you by Prompt Security, the One-Stop Platform for GenAI Security :lock:
+
+![Prompt Security Logo](./resources/Black+Color.png)
+
+---
 </center>
 
 ---
@@ -55,14 +59,6 @@ Table of Contents
 
 <a id="what-is-prompt-fuzzer"></a>
 
----
-<center>
-
-![Prompt Security Logo](./resources/Black+Color.png)
-
-</center>
-
----
 
 ## ✨ What is the Prompt Fuzzer
 1. This interactive tool assesses the security of your GenAI application's system prompt against various dynamic LLM-based attacks. It provides a security evaluation based on the outcome of these attack simulations, enabling you to strengthen your system prompt as needed.
