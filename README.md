@@ -29,6 +29,7 @@
 3. The Fuzzer also includes a Playground chat interface, giving you the chance to iteratively improve your system prompt, hardening it against a wide spectrum of generative AI attacks.
 
 ## 🚀 Get started
+![prompt-fuzzer-install-final](https://github.com/prompt-security/ps-fuzz/assets/163823698/47daaeed-3fad-417e-b646-06753db427f4)
 
 1. Install the Fuzzer package using pip:
 ```bash
