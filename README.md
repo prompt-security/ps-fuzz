@@ -32,7 +32,6 @@
 
 ---
 
-<br>
 
 Table of Contents
 -----------------
@@ -60,8 +59,7 @@ Table of Contents
 * [ :beers: Contributing](#contributing)
 
 <br>
-<br>
-<br>
+
 
 <a id="what-is-prompt-fuzzer"></a>
 
@@ -83,28 +81,31 @@ Table of Contents
 * :skull_and_crossbones:  Supports 20 different [attacks](#attacks)
 
 ---
-
 <br>
 
 <a id="installation"></a>
 ## 🚀 Installation 
+![prompt-fuzzer-install-final](https://github.com/prompt-security/ps-fuzz/assets/163823698/47daaeed-3fad-417e-b646-06753db427f4)
 
-<a id="using-pip"></a>
-#### Using pip install
-1. Install the Fuzzer package using pip:
-```zsh
-pip install prompt-security-fuzzer
-```
+1. Install the Fuzzer package
+   <a id="using-pip"></a>
+   #### Using pip install
+   ```zsh
+   pip install prompt-security-fuzzer
+   ```
+   <a id="using-pypi"></a>
+   #### Using the package page on PyPi
+   You can also visit the [package page](https://pypi.org/project/prompt-security-fuzzer/) on PyPi
 
-<a id="using-pypi"></a>
-#### Package page on PyPi
-You can also visit the [package page] on PyPi
-
-##### Or grab latest release wheel file form [releases](https://github.com/prompt-security/ps-fuzz/releases)
+   Or grab latest release wheel file form [releases](https://github.com/prompt-security/ps-fuzz/releases)
 
 
-<br/>
-<br/>
+2. Input your system prompt
+
+3. Start testing
+
+4. Test yourself with the Playground! Iterate as many times are you like until your system prompt is secure.
+
 
 <a id="usage"></a>
 ## :computer:  Usage
