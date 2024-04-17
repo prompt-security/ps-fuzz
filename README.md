@@ -135,9 +135,9 @@ Alternatively, create a file named `.env` in the current directory and set the `
 | `KONKO_API_KEY` | `ChatKonko` Chat large language models API.|
 | `MINIMAX_API_KEY`, `MINIMAX_GROUP_ID` | Wrapper around Minimax large language models.|
 | `OPENAI_API_KEY` | `OpenAI` Chat large language models API.|
-| `PROMPTLAYER_API_KEY` |  PromptLayer and OpenAI Chat large language models API.|
+| `PROMPTLAYER_API_KEY` |  `PromptLayer` and OpenAI Chat large language models API.|
 | `QIANFAN_AK`, `QIANFAN_SK` |  `Baidu Qianfan` chat models.|
-| `YC_API_KEY` | YandexGPT large language models.|
+| `YC_API_KEY` | `YandexGPT` large language models.|
 </details>
 
 <br/>
