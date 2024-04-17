@@ -16,6 +16,7 @@
 </h2>
 
 ---
+
 <center>
 
 ##### Brought to you by Prompt Security, the One-Stop Platform for GenAI Security :lock:
