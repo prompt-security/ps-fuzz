@@ -15,19 +15,20 @@
 ![Last release](https://img.shields.io/github/v/release/prompt-security/ps-fuzz)
 </h2>
 
+
+<div align="center">
+
+<h4> Brought to you by Prompt Security, the One-Stop Platform for GenAI Security :lock: </h4>
+
+</div>
+
 ---
 
-<center>
-
-##### Brought to you by Prompt Security, the One-Stop Platform for GenAI Security :lock:
-
-</center>
-
-<center>
-
+<div align="center">
+  
 ![Prompt Security Logo](./resources/Black+Color.png)
 
-</center>
+</div>
 
 ---
 
