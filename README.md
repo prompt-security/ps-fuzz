@@ -208,6 +208,7 @@ We use a dynamic testing approach, where we get the necessary context from your 
 - **Linguistic Evasion**: Uses non-English languages to bypass preset restrictions or focus.
 - **Self Refine**: Attempts to bypass system prompts by refining responses towards unethical directions.
 - **UCAR**: Assesses LLM adherence to content restrictions when asked to ignore such filters.
+- **Base64 Evasion** Attempts to evade detection of harmful prompts by encoding them into base64 strings
 
 <a id="pi-injection"></a>
 ##### Prompt Injection
