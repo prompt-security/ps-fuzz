@@ -5,7 +5,7 @@
 </h1>
 
 <h2 align="center">
-  The open-source tool that will help you harden your GenAI applications!
+  The open-source tool to help you harden your GenAI applications
 </h2>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -23,7 +23,7 @@
 ---
 
 
-## ✨ Why Prompt Fuzzer
+## ✨ What is the Prompt Fuzzer
 1. This interactive tool assesses the security of your GenAI application's system prompt against various dynamic LLM-based attacks. It provides a security evaluation based on the outcome of these attack simulations, enabling you to strengthen your system prompt as needed.
 2. The Prompt Fuzzer dynamically tailors its tests to your application's unique configuration and domain.
 3. The Fuzzer also includes a Playground chat interface, giving you the chance to iteratively improve your system prompt, hardening it against a wide spectrum of generative AI attacks.
