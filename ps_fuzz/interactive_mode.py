@@ -118,7 +118,7 @@ class TargetLLMOptions:
         ])
         if result is None: return  # Handle prompt cancellation concisely
         state.target_provider = result['target_provider']
-        cls.llm_model = result['target_model']
+        state.target_model = result['target_model']
         return MainMenu
 
 class AttackLLMOptions:
