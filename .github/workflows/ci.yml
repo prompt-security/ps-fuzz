@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9, 3.10, 3.11]
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
 
     steps:
       - name: Checkout repository
@@ -35,18 +35,15 @@ jobs:
   build-package:
     needs: build-and-test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.11]  # Only build with the latest stable Python for package release
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.11'
 
       - name: Build package using script
         run: |
