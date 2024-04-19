@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9, 3.10, 3.11, '3.x']  # '3.x' will use the latest Python 3 release
+        python-version: [3.7, 3.8, 3.9, 3.10, 3.11]
 
     steps:
       - name: Checkout repository
