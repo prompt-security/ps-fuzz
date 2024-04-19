@@ -1,9 +1,9 @@
 from langchain_core.language_models.chat_models import BaseChatModel
 import langchain.chat_models
-from typing import Any, Dict, get_origin
+from typing import Any, Dict, get_origin, Optional
 import inspect, re
 
-def _get_class_member_doc(cls, param_name: str) -> str | None:
+def _get_class_member_doc(cls, param_name: str) -> Optional[str]:
     lines, _ = inspect.getsourcelines(cls)
     state = 0 # 0=waiting, 1=ready, 2=reading mutliline
     doc_lines = []
