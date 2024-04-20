@@ -99,12 +99,18 @@ Table of Contents
 
    Or grab latest release wheel file form [releases](https://github.com/prompt-security/ps-fuzz/releases)
 
+2. Launch the Fuzzer
+   ```zsh
+   export OPENAI_API_KEY=sk-123XXXXXXXXXXXX
+   
+   prompt-security-fuzzer
+   ```
 
-2. Input your system prompt
+3. Input your system prompt
 
-3. Start testing
+4. Start testing
 
-4. Test yourself with the Playground! Iterate as many times are you like until your system prompt is secure.
+5. Test yourself with the Playground! Iterate as many times are you like until your system prompt is secure.
 
 
 <a id="usage"></a>
