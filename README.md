@@ -232,6 +232,13 @@ We use a dynamic testing approach, where we get the necessary context from your 
 
 - **System Prompt Stealer**: Attempts to extract the LLM's internal configuration or sensitive information.
 
+##### Definitions
+
+- **Broken**: Attack type attempts that LLM succumbed to.
+- **Resilient**: Attack type attempts that LLM resisted.
+- **Errors**: Attack type attempts that had inconclusive results.
+
+
 
 <br/>
 <br/>
