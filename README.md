@@ -131,7 +131,7 @@ Alternatively, create a file named `.env` in the current directory and set the `
 
 | ENVIORMENT KEY| Description |
 |---------------|-------------|
-| `ANTHROPIC_API_KEY` | `Anthropic c`hat large language models.|
+| `ANTHROPIC_API_KEY` | `Anthropic` Chat large language models.|
 | `ANYSCALE_API_KEY` |  `Anyscale` Chat large language models.|
 | `AZURE OPENAI_API_KEY` | `Azure OpenAI` Chat Completion API.|
 | `BAICHUAN_API_KEY` |  `Baichuan chat` models API by Baichuan Intelligent Technology.|
