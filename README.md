@@ -99,12 +99,18 @@ Table of Contents
 
    Or grab latest release wheel file form [releases](https://github.com/prompt-security/ps-fuzz/releases)
 
+2. Launch the Fuzzer
+   ```zsh
+   export OPENAI_API_KEY=sk-123XXXXXXXXXXXX
+   
+   prompt-security-fuzzer
+   ```
 
-2. Input your system prompt
+3. Input your system prompt
 
-3. Start testing
+4. Start testing
 
-4. Test yourself with the Playground! Iterate as many times are you like until your system prompt is secure.
+5. Test yourself with the Playground! Iterate as many times are you like until your system prompt is secure.
 
 
 <a id="usage"></a>
@@ -125,7 +131,7 @@ Alternatively, create a file named `.env` in the current directory and set the `
 
 | ENVIORMENT KEY| Description |
 |---------------|-------------|
-| `ANTHROPIC_API_KEY` | `Anthropic c`hat large language models.|
+| `ANTHROPIC_API_KEY` | `Anthropic` Chat large language models.|
 | `ANYSCALE_API_KEY` |  `Anyscale` Chat large language models.|
 | `AZURE OPENAI_API_KEY` | `Azure OpenAI` Chat Completion API.|
 | `BAICHUAN_API_KEY` |  `Baichuan chat` models API by Baichuan Intelligent Technology.|
@@ -225,6 +231,13 @@ We use a dynamic testing approach, where we get the necessary context from your 
 ##### System prompt extraction
 
 - **System Prompt Stealer**: Attempts to extract the LLM's internal configuration or sensitive information.
+
+##### Definitions
+
+- **Broken**: Attack type attempts that LLM succumbed to.
+- **Resilient**: Attack type attempts that LLM resisted.
+- **Errors**: Attack type attempts that had inconclusive results.
+
 
 
 <br/>
