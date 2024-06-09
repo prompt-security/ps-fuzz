@@ -110,6 +110,21 @@ class AppConfig:
         self.save()
 
     @property
+    def custom_benchmark(self) -> str:
+        return self.config_state['custom_benchmark']
+
+    @target_model.setter
+    def target_model(self, value: str):
+        if not value: raise ValueError("Custom benchmark file cannot be empty, has to be a path to file")
+        if not os.path.exists(value): raise ValueError("Custom benchmark file does not exist")
+        if not os.path.isfile(value): raise ValueError("Custom benchmark file is not a file")
+        if not os.access(value, os.R_OK): raise ValueError("Custom benchmark file is not readable")
+        if os.path.getsize(value) == 0: raise ValueError("Custom benchmark file is empty")
+        if not value.endswith('.csv'): raise ValueError("Custom benchmark file must be a CSV file")
+        self.config_state['custom_benchmark'] = value
+        self.save()
+
+    @property
     def num_attempts(self) -> int:
         return self.config_state['num_attempts']
 
@@ -164,6 +179,7 @@ def parse_cmdline_args():
     parser.add_argument('--attack-model', type=str, default=None, help="Attack model")
     parser.add_argument('--target-provider', type=str, default=None, help="Target provider")
     parser.add_argument('--target-model', type=str, default=None, help="Target model")
+    parser.add_argument('--custom-benchmark', type=str, default=None, help="Custom benchmark file")
     parser.add_argument('-n', '--num-attempts', type=int, default=None, help="Number of different attack prompts")
     parser.add_argument('-t', '--num-threads', type=int, default=None, help="Number of worker threads")
     parser.add_argument('-a', '--attack-temperature', type=float, default=None, help="Temperature for attack model")
