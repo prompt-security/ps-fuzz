@@ -44,6 +44,7 @@ Table of Contents
     * [Package page](https://pypi.org/project/prompt-security-fuzzer/)
     * [:construction: Using docker](#docker) ***coming soon*** 
 * [Usage](#usage)
+    * [Features](#features)
     * [Environment variables](#environment-variables)
     * [Supported LLMs](#llm-providers)
     * [Command line options](#options)
@@ -71,16 +72,6 @@ Table of Contents
 
 :warning: Using the Prompt Fuzzer will lead to the consumption of tokens. :warning:
 
-<br>
-
----
-
-<a id="features"></a>
-#### Features
-* :moneybag:  We support 20 [llm providers](#llm-providers)
-* :skull_and_crossbones:  Supports 20 different [attacks](#attacks)
-
----
 <br>
 
 <a id="installation"></a>
@@ -115,7 +106,15 @@ Table of Contents
 
 <a id="usage"></a>
 ## :computer:  Usage
-
+<a id="features"></a>
+### Features
+<b>The Prompt Fuzzer Supports:</b><br>
+🧞  16 [llm providers](#llm-providers)<br>
+🔫  15 different [attacks](#attacks)<br>
+💬  Interactive mode<br>
+🤖  CLI mode<br>
+🧵  Multi threaded testing<br>
+  
 <a id="environment-variables"></a>
 ### Environment variables:
 
@@ -246,10 +245,13 @@ We use a dynamic testing approach, where we get the necessary context from your 
 <a id="roadmap"></a>
 ## :rainbow: What’s next on the roadmap?
 
-- [ ]  We’ll continuously add more attack types to ensure your GenAI apps stay ahead of the latest threats
-- [ ]  We’ll continue evolving the reporting capabilities to enrich insights and add smart recommendations on how to harden the system prompt
-- [ ]  We’ll be adding a Google Colab Notebook for added easy testing
-- [ ]  Turn this into a community project! We want this to be useful to everyone building GenAI applications. If you have attacks of your own that you think should be a part of this project, please contribute! This is how: https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md
+- [ ]  Google Colab Notebook
+- [ ]  More attack types
+- [ ]  Adjust the output evaluation mechanism for prompt dataset testing
+- [ ]  Better reporting capabilites
+- [ ]  Hardening recommendations
+
+Turn this into a community project! We want this to be useful to everyone building GenAI applications. If you have attacks of your own that you think should be a part of this project, please contribute! This is how: https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md
 
 <a id="contributing"></a>
 ## 🍻 Contributing
