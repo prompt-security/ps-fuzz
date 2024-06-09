@@ -2,7 +2,7 @@ from .langchain_integration import get_langchain_chat_models_info
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.outputs.llm_result import LLMResult
 from langchain.schema import BaseMessage, HumanMessage, SystemMessage, AIMessage
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from abc import ABC, abstractmethod
 import sys
 import logging
@@ -53,7 +53,7 @@ class ClientLangChain(ClientBase):
 # Chat session allows chatting against target client while maintaining state (history buffer)
 class ChatSession:
     "Maintains single conversation, including history, and supports an optional system prompts"
-    def __init__(self, client: ClientBase, system_prompts: List[str] | None = None):
+    def __init__(self, client: ClientBase, system_prompts: Optional[List[str]] = None):
         self.client = client
         self.system_prompts = None
         if system_prompts:
