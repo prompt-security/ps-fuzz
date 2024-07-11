@@ -6,6 +6,11 @@ from .util import wrap_text
 from .results_table import print_table
 import logging
 logger = logging.getLogger(__name__)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+logger.propagate = False
 
 class AppConfig:
     default_config = {
@@ -113,8 +118,6 @@ class AppConfig:
     def custom_benchmark(self) -> str:
         return self.config_state['custom_benchmark']
 
-    @target_model.setter
-    def target_model(self, value: str):
     @custom_benchmark.setter
     def custom_benchmark(self, value: str):
         if not value: raise ValueError("Custom benchmark file cannot be empty, has to be a path to file")
@@ -167,10 +170,10 @@ class AppConfig:
                     setattr(self, key, value)
             except AttributeError:
                 logger.warning(f"Attempt to set an undefined configuration property '{key}'")
-                raise
+                sys.exit(1)
             except Exception as e:
                 logger.error(f"Error setting {key}: {e}")
-                raise
+                sys.exit(1)
         self.save()
 
 def parse_cmdline_args():
