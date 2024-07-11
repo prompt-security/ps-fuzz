@@ -115,6 +115,8 @@ class AppConfig:
 
     @target_model.setter
     def target_model(self, value: str):
+    @custom_benchmark.setter
+    def custom_benchmark(self, value: str):
         if not value: raise ValueError("Custom benchmark file cannot be empty, has to be a path to file")
         if not os.path.exists(value): raise ValueError("Custom benchmark file does not exist")
         if not os.path.isfile(value): raise ValueError("Custom benchmark file is not a file")
