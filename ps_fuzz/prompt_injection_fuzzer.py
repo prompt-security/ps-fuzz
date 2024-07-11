@@ -10,7 +10,7 @@ from .work_progress_pool import WorkProgressPool, ThreadSafeTaskIterator, Progre
 from .interactive_chat import *
 from .results_table import print_table
 import colorama
-from pydantic.error_wrappers import ValidationError
+from pydantic import ValidationError
 import logging
 logger = logging.getLogger(__name__)
 
