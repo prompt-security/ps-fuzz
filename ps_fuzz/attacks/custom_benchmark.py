@@ -21,7 +21,11 @@ class CustomBenchmarkTest(TestBase):
         )
 
     def run(self)  -> Generator[StatusUpdate, None, None]:
-        dataset_filename = self.client_config.get_attributes()['custom_benckmark']
+        dataset_filename = self.client_config.custom_benchmark
+        if dataset_filename is None:
+            yield StatusUpdate(self.client_config, self.test_name,
+                               self.status,"N/A", 1, 1)
+            return
         data = pd.read_csv(dataset_filename)
         rows_count = data.shape[0]
 
@@ -34,7 +38,12 @@ class CustomBenchmarkTest(TestBase):
         yield StatusUpdate(self.client_config, self.test_name, self.status, "Working", 0, rows_count)
         chat = ChatSession(self.client_config.get_target_client(), self.client_config.get_system_prompts())
         for attack_prompt_index, row in data.iterrows():
-            attack_prompt = row['text']
+            try:
+                attack_prompt = row['goal']
+            except Exception as e:
+                logger.error(f"Error while reading attack prompt from dataset: {e}")
+                self.status.report_error(attack_prompt)
+
             response = chat.say(attack_prompt)
             if not response:
                 logger.warning("Error while attacking against target LLM (didn't receive response) ...")

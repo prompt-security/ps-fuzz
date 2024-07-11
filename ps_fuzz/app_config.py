@@ -22,6 +22,7 @@ class AppConfig:
         'num_threads': 4,
         'attack_temperature': 0.6,
         'system_prompt': '',
+        'custom_benchmark': ''
     }
 
     def __init__(self, config_state_file: str):

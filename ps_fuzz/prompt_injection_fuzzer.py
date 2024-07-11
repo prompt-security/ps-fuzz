@@ -160,13 +160,14 @@ def run_interactive_chat(app_config: AppConfig):
 def run_fuzzer(app_config: AppConfig):
     # Print current app configuration
     app_config.print_as_table()
+    custom_benchmark = app_config.custom_benchmark
     target_system_prompt = app_config.system_prompt
     try:
         target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
     except (ModuleNotFoundError, ValidationError) as e:
         logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
-    client_config = ClientConfig(target_client, [target_system_prompt])
+    client_config = ClientConfig(target_client, [target_system_prompt], custom_benchmark=custom_benchmark)
 
     try:
         attack_config = AttackConfig(
