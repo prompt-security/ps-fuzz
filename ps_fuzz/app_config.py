@@ -144,11 +144,12 @@ class AppConfig:
 
     @tests.setter
     def tests(self, value: str):
-        print(value)
         try:
-            self.config_state['tests'] = json.loads(value)
+            if len(value) > 0:
+                self.config_state['tests'] = json.loads(value)
+            else:
+                self.config_state['tests'] = []
         except Exception as e:
-            print(e)
             self.config_state['tests'] = []
         self.save()
 
