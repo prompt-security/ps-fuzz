@@ -191,11 +191,28 @@ Run tests against the system prompt (in non-interactive batch mode):
     prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt
 ```
 
+#### 📺 Custom Benchmark!
+Run tests against the system prompt with a custom benchmark
+
+```
+    prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt --custom-benchmark=ps_fuzz/attack_data/custom_benchmark1.csv
+```
+
+#### 🐹 Run only a subset of attacks!
+Run tests against the system prompt with a subset of attacks
+
+```
+    prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt --custom-benchmark=ps_fuzz/attack_data/custom_benchmark1.csv --tests='["ucar","amnesia"]'
+```
+
 <br>
 <br>
 <br>
 
-
+<a id="colab"></a>
+## 📓 Google Colab Notebook
+Refine and harden your system prompt in our Google Colab Notebook
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Ayw30QJ8CsPogkKT8lzn9DEi5edwgHE2)
 <a id="demovideo"></a>
 ## 🎬 Demo video
 [![Watch the video](https://img.youtube.com/vi/8RtqtPI_bsE/hqdefault.jpg)](https://www.youtube.com/watch?v=8RtqtPI_bsE)
