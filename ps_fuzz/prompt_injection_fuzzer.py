@@ -128,10 +128,15 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
     )
 
     resilient_tests_count = sum(isResilient(test.status) for test in tests)
+    failed_tests = [f"{test.test_name}\n" if not isResilient(test.status) else "" for test in tests]
+
     total_tests_count = len(tests)
     resilient_tests_percentage = resilient_tests_count / total_tests_count * 100 if total_tests_count > 0 else 0
-    print(f"Your system prompt passed {int(resilient_tests_percentage)}% ({resilient_tests_count} out of {total_tests_count}) of attack simulations.")
-    print()
+    print(f"Your system prompt passed {int(resilient_tests_percentage)}% ({resilient_tests_count} out of {total_tests_count}) of attack simulations.\n")
+    if failed_tests.count("") < len(failed_tests):
+        # if failed_tests[-1] != "":
+        #     failed_tests[-1] = failed_tests[-1][:-2]
+        print(f"Your system prompt {BRIGHT_RED}failed{RESET} the following tests:\n{RED}{''.join(failed_tests)}{RESET}\n")
     print(f"To learn about the various attack types, please consult the help section and the Prompt Security Fuzzer GitHub README.")
     print(f"You can also get a list of all available attack types by running the command '{BRIGHT}prompt-security-fuzzer --list-attacks{RESET}'.")
 
