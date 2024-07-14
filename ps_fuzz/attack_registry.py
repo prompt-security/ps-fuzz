@@ -15,12 +15,13 @@ def register_test(cls):
     logger.debug(f"Registering attack test class: {cls.__name__}")
     test_classes.append(cls)
 
-def instantiate_tests(client_config: ClientConfig, attack_config: AttackConfig) -> List[TestBase]:
+def instantiate_tests(client_config: ClientConfig, attack_config: AttackConfig,custom_tests:List=None) -> List[TestBase]:
     tests = []
     for cls in test_classes:
         # TODO: remove ...
         #if test_cls.__name__ != "TestSystemPromptStealer": continue
-        logger.debug(f"Instantiating attack test class: {cls.__name__}")
         test_instance = cls(client_config, attack_config)
-        tests.append(test_instance)
+        if (custom_tests and len(custom_tests)>0 and test_instance.test_name in custom_tests) or not custom_tests or len(custom_tests)==0:
+            logger.debug(f"Instantiating attack test class: {cls.__name__}")
+            tests.append(test_instance)
     return tests

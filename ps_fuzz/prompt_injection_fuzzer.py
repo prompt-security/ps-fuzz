@@ -71,11 +71,11 @@ def isResilient(test_status: TestStatus):
     "Define test as passed if there were no errors or failures during test run"
     return test_status.breach_count == 0 and test_status.error_count == 0
 
-def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackConfig, threads_count: int):
+def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackConfig, threads_count: int, tests: List = None):
     print(f"{BRIGHT_CYAN}Running tests on your system prompt{RESET} ...")
 
     # Instantiate all tests
-    tests: List[TestBase] = instantiate_tests(client_config, attack_config)
+    tests: List[TestBase] = instantiate_tests(client_config, attack_config, custom_tests=tests)
 
     # Create a thread pool to run tests within in parallel
     work_pool = WorkProgressPool(threads_count)
@@ -163,7 +163,7 @@ def run_fuzzer(app_config: AppConfig):
     custom_benchmark = app_config.custom_benchmark
     target_system_prompt = app_config.system_prompt
     try:
-        target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
+        target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model,temperature=0)
     except (ModuleNotFoundError, ValidationError) as e:
         logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
@@ -179,4 +179,4 @@ def run_fuzzer(app_config: AppConfig):
         return
 
     # Run the fuzzer
-    fuzz_prompt_injections(client_config, attack_config, threads_count=app_config.num_threads)
+    fuzz_prompt_injections(client_config, attack_config, threads_count=app_config.num_threads,tests=app_config.tests)

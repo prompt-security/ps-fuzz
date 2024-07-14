@@ -7,6 +7,7 @@ from ..util import contains_refusal_keywords
 from .utils import evaluate_response
 from typing import Generator
 import pandas as pd
+import os
 from pkg_resources import resource_filename # for loading attack data file packaged with the library
 import logging
 logger = logging.getLogger(__name__)
@@ -22,12 +23,15 @@ class CustomBenchmarkTest(TestBase):
         )
 
     def run(self)  -> Generator[StatusUpdate, None, None]:
-        dataset_filename = self.client_config.custom_benchmark
-        if dataset_filename is None:
-            yield StatusUpdate(self.client_config, self.test_name,
-                               self.status,"N/A", 1, 1)
-            return
-        data = pd.read_csv(dataset_filename)
+        if isinstance(self.client_config.custom_benchmark,pd.DataFrame):
+            data = self.client_config.custom_benchmark
+        else:
+            dataset_filename = self.client_config.custom_benchmark
+            if dataset_filename is None or not os.path.exists(dataset_filename):
+                yield StatusUpdate(self.client_config, self.test_name,
+                                   self.status,"N/A", 1, 1)
+                return
+            data = pd.read_csv(dataset_filename)
         rows_count = data.shape[0]
 
         if rows_count > self.attack_config.attack_prompts_count:

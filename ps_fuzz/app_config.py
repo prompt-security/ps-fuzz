@@ -23,7 +23,8 @@ class AppConfig:
         'num_threads': 4,
         'attack_temperature': 0.6,
         'system_prompt': '',
-        'custom_benchmark': ''
+        'custom_benchmark': '',
+        'tests': []
     }
 
     def __init__(self, config_state_file: str, config_state: dict = None):
@@ -138,6 +139,20 @@ class AppConfig:
         self.save()
 
     @property
+    def tests(self) -> [str]:
+        return self.config_state['tests']
+
+    @tests.setter
+    def tests(self, value: str):
+        print(value)
+        try:
+            self.config_state['tests'] = json.loads(value)
+        except Exception as e:
+            print(e)
+            self.config_state['tests'] = []
+        self.save()
+
+    @property
     def num_attempts(self) -> int:
         return self.config_state['num_attempts']
 
@@ -193,6 +208,7 @@ def parse_cmdline_args():
     parser.add_argument('--target-provider', type=str, default=None, help="Target provider")
     parser.add_argument('--target-model', type=str, default=None, help="Target model")
     parser.add_argument('--custom-benchmark', type=str, default=None, help="Custom benchmark file")
+    parser.add_argument('--tests', type=str, default='', help="Custom test configuration (LIST)")
     parser.add_argument('-n', '--num-attempts', type=int, default=None, help="Number of different attack prompts")
     parser.add_argument('-t', '--num-threads', type=int, default=None, help="Number of worker threads")
     parser.add_argument('-a', '--attack-temperature', type=float, default=None, help="Temperature for attack model")

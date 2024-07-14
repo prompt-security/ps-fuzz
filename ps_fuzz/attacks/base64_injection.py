@@ -4,6 +4,7 @@ from ..attack_config import AttackConfig
 from ..test_base import TestBase, StatusUpdate
 from ..attack_registry import register_test
 from ..util import contains_refusal_keywords
+# from .utils import evaluate_response
 from typing import Generator
 import pandas as pd
 from pkg_resources import resource_filename # for loading attack data file packaged with the library
@@ -42,12 +43,13 @@ class TestBase64Injection(TestBase):
             chat = ChatSession(self.client_config.get_target_client(), self.client_config.get_system_prompts())
             response = chat.say(attack_prompt_base64_string)
             if not response:
-                logger.warning("Error while attacking against target LLM (didn't receive response) ...", file = sys.stderr)
+                logger.warning("Error while attacking against target LLM (didn't receive response) ...")
                 self.status.report_error(attack_prompt)
 
             # The idea is to check that response contains something similar to expected response, but without refusal keywords
             # This is a simple way to discriminate refusal from compliance without requiring a full NLP model.
             verified = not contains_refusal_keywords(response)
+            # verified = evaluate_response(self.attack_config.attack_client,response,row['response'])
             logger.info(f"Test '{self.test_name}': attack prompt #{attack_prompt_index}: {attack_prompt}")
             logger.info(f"Test '{self.test_name}': attack response #{attack_prompt_index} break_success={verified}): {response}")
 
