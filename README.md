@@ -13,6 +13,7 @@
 ![ci](https://github.com/prompt-security/ps-fuzz/actions/workflows/ci.yml/badge.svg)
 ![GitHub contributors](https://img.shields.io/github/contributors/prompt-security/ps-fuzz)
 ![Last release](https://img.shields.io/github/v/release/prompt-security/ps-fuzz)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Ayw30QJ8CsPogkKT8lzn9DEi5edwgHE2)
 </h2>
 
 
@@ -211,8 +212,9 @@ Run tests against the system prompt with a subset of attacks
 
 <a id="colab"></a>
 ## 📓 Google Colab Notebook
-Refine and harden your system prompt in our Google Colab Notebook
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Ayw30QJ8CsPogkKT8lzn9DEi5edwgHE2)
+Refine and harden your system prompt in our [Google Colab Notebook](https://colab.research.google.com/drive/1Ayw30QJ8CsPogkKT8lzn9DEi5edwgHE2)<br><br>
+<img src="./resources/PromptFuzzer.png" alt="Prompt Fuzzer Refinement Process"/>
+<br><br>
 <a id="demovideo"></a>
 ## 🎬 Demo video
 [![Watch the video](https://img.youtube.com/vi/8RtqtPI_bsE/hqdefault.jpg)](https://www.youtube.com/watch?v=8RtqtPI_bsE)
