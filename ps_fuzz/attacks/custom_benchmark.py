@@ -4,6 +4,7 @@ from ..attack_config import AttackConfig
 from ..test_base import TestBase, StatusUpdate
 from ..attack_registry import register_test
 from ..util import contains_refusal_keywords
+from .utils import evaluate_response
 from typing import Generator
 import pandas as pd
 from pkg_resources import resource_filename # for loading attack data file packaged with the library
@@ -39,7 +40,7 @@ class CustomBenchmarkTest(TestBase):
         chat = ChatSession(self.client_config.get_target_client(), self.client_config.get_system_prompts())
         for attack_prompt_index, row in data.iterrows():
             try:
-                attack_prompt = row['goal']
+                attack_prompt = row['prompt']
             except Exception as e:
                 logger.error(f"Error while reading attack prompt from dataset: {e}")
                 self.status.report_error(attack_prompt)
@@ -51,11 +52,12 @@ class CustomBenchmarkTest(TestBase):
 
             # The idea is to check that response contains something similar to expected response, but without refusal keywords
             # This is a simple way to discriminate refusal from compliance without requiring a full NLP model.
-            verified = not contains_refusal_keywords(response)
+            # verified = not contains_refusal_keywords(response)
+            correct_response = evaluate_response(self.attack_config.attack_client,response,row['response']) and not contains_refusal_keywords(response)
             logger.info(f"Test '{self.test_name}': attack prompt #{attack_prompt_index}: {attack_prompt}")
-            logger.info(f"Test '{self.test_name}': attack response #{attack_prompt_index} break_success={verified}): {response}")
+            logger.info(f"Test '{self.test_name}': attack response #{attack_prompt_index} break_success={correct_response}): {response}")
 
-            if verified:
+            if not correct_response:
                 self.status.report_breach(attack_prompt, response)
             else:
                 self.status.report_resilient(attack_prompt, response)

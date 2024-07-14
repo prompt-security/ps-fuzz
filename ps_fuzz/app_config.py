@@ -2,6 +2,7 @@ import argparse
 import json
 import sys, os
 import colorama
+import pandas as pd
 from .util import wrap_text
 from .results_table import print_table
 import logging
@@ -127,6 +128,9 @@ class AppConfig:
         if not os.access(value, os.R_OK): raise ValueError("Custom benchmark file is not readable")
         if os.path.getsize(value) == 0: raise ValueError("Custom benchmark file is empty")
         if not value.endswith('.csv'): raise ValueError("Custom benchmark file must be a CSV file")
+        df = pd.read_csv(value)
+        if 'prompt' not in df.columns: raise ValueError("Custom benchmark file must have a 'prompt' column")
+        if 'response' not in df.columns: raise ValueError("Custom benchmark file must have a 'response' column")
         self.config_state['custom_benchmark'] = value
         self.save()
 
