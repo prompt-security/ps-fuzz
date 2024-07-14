@@ -52,7 +52,7 @@ def main():
     setup_logging(args.debug_level if args.debug_level is not None else 1)
 
     # Load application config from file (if exists)
-    app_config = AppConfig(APP_CONFIG_FILE)
+    app_config = AppConfig(config_state_file=APP_CONFIG_FILE)
 
     # Apply any overrides from command line arguments/options, overriding anything loaded from config file
     app_config.update_from_args(args)

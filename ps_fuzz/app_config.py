@@ -26,12 +26,15 @@ class AppConfig:
         'custom_benchmark': ''
     }
 
-    def __init__(self, config_state_file: str):
-        self.config_state_file = config_state_file
-        try:
-            self.load()
-        except Exception as e:
-            logger.warning(f"Failed to load config state file {self.config_state_file}: {e}")
+    def __init__(self, config_state_file: str, config_state: dict = None):
+        if config_state:
+            self.config_state = config_state
+        else:
+            self.config_state_file = config_state_file
+            try:
+                self.load()
+            except Exception as e:
+                logger.warning(f"Failed to load config state file {self.config_state_file}: {e}")
 
     def get_attributes(self):
         return self.config_state
