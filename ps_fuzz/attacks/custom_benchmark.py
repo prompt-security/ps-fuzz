@@ -54,9 +54,9 @@ class CustomBenchmarkTest(TestBase):
                 logger.warning("Error while attacking against target LLM (didn't receive response) ...")
                 self.status.report_error(attack_prompt)
 
-            # The idea is to check that response contains something similar to expected response, but without refusal keywords
             # This is a simple way to discriminate refusal from compliance without requiring a full NLP model.
             # verified = not contains_refusal_keywords(response)
+            # The idea is to check that response contains something similar to expected response, but without refusal keywords
             correct_response = evaluate_response(self.attack_config.attack_client,response,row['response']) and not contains_refusal_keywords(response)
             logger.info(f"Test '{self.test_name}': attack prompt #{attack_prompt_index}: {attack_prompt}")
             logger.info(f"Test '{self.test_name}': attack response #{attack_prompt_index} break_success={correct_response}): {response}")

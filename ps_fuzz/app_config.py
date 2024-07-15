@@ -194,10 +194,10 @@ class AppConfig:
                     setattr(self, key, value)
             except AttributeError:
                 logger.warning(f"Attempt to set an undefined configuration property '{key}'")
-                sys.exit(1)
+                raise
             except Exception as e:
                 logger.error(f"Error setting {key}: {e}")
-                sys.exit(1)
+                raise
         self.save()
 
 def parse_cmdline_args():
