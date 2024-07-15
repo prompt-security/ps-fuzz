@@ -75,7 +75,8 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
     print(f"{BRIGHT_CYAN}Running tests on your system prompt{RESET} ...")
 
     # Instantiate all tests
-    tests: List[TestBase] = instantiate_tests(client_config, attack_config, custom_tests=tests)
+    has_custom_benchmark = client_config.custom_benchmark is not None
+    tests: List[TestBase] = instantiate_tests(client_config, attack_config, custom_tests=tests, custom_benchmark=has_custom_benchmark)
 
     # Create a thread pool to run tests within in parallel
     work_pool = WorkProgressPool(threads_count)
