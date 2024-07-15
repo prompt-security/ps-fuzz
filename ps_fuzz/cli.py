@@ -44,7 +44,6 @@ def main():
         attack_config = AttackConfig(FakeChatClient(), 1)
         tests = instantiate_tests(client_config, attack_config,[],True)
         print("Available attacks:")
-        print([test.test_name for test in tests])
         for test_name, test_description in sorted([(cls.test_name, cls.test_description) for cls in tests]):
             print(f"{BRIGHT}{test_name}{RESET}:\n{wrap_text(test_description)}")
         sys.exit(0)

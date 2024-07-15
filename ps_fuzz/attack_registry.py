@@ -15,7 +15,7 @@ def register_test(cls):
     logger.debug(f"Registering attack test class: {cls.__name__}")
     test_classes.append(cls)
 
-def instantiate_tests(client_config: ClientConfig, attack_config:AttackConfig,custom_tests:List=None,custom_benchmark:bool=False) -> List[TestBase]:
+def instantiate_tests(client_config: ClientConfig, attack_config:AttackConfig, custom_tests:List=None, custom_benchmark:bool=False) -> List[TestBase]:
     tests = []
     for cls in test_classes:
         # TODO: remove ...
