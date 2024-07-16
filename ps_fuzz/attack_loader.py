@@ -9,5 +9,6 @@ from .attacks import (
     ucar,
     complimentary_transition,
     harmful_behavior,
-    base64_injection
+    base64_injection,
+    custom_benchmark
 )

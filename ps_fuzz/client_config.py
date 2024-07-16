@@ -16,10 +16,11 @@ def summarize_system_prompts(client: ClientBase, system_prompts: List[str]) -> s
     return chat.say(user_message)
 
 class ClientConfig(object):
-    def __init__(self, target_client: ClientBase, target_system_prompts: List[str]):
+    def __init__(self, target_client: ClientBase, target_system_prompts: List[str], custom_benchmark: str = None):
         self.target_client = target_client
         self.system_prompts = target_system_prompts
         self.system_prompts_summary = None
+        self.custom_benchmark = custom_benchmark
 
     def get_target_client(self):
         return self.target_client

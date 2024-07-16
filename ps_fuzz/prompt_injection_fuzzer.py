@@ -10,7 +10,7 @@ from .work_progress_pool import WorkProgressPool, ThreadSafeTaskIterator, Progre
 from .interactive_chat import *
 from .results_table import print_table
 import colorama
-from pydantic.error_wrappers import ValidationError
+from pydantic import ValidationError
 import logging
 logger = logging.getLogger(__name__)
 
@@ -71,11 +71,12 @@ def isResilient(test_status: TestStatus):
     "Define test as passed if there were no errors or failures during test run"
     return test_status.breach_count == 0 and test_status.error_count == 0
 
-def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackConfig, threads_count: int):
+def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackConfig, threads_count: int, custom_tests: List = None):
     print(f"{BRIGHT_CYAN}Running tests on your system prompt{RESET} ...")
 
     # Instantiate all tests
-    tests: List[TestBase] = instantiate_tests(client_config, attack_config)
+    has_custom_benchmark = client_config.custom_benchmark is not None
+    tests: List[TestBase] = instantiate_tests(client_config, attack_config, custom_tests=custom_tests, custom_benchmark=has_custom_benchmark)
 
     # Create a thread pool to run tests within in parallel
     work_pool = WorkProgressPool(threads_count)
@@ -128,10 +129,13 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
     )
 
     resilient_tests_count = sum(isResilient(test.status) for test in tests)
+    failed_tests = [f"{test.test_name}\n" if not isResilient(test.status) else "" for test in tests]
+
     total_tests_count = len(tests)
     resilient_tests_percentage = resilient_tests_count / total_tests_count * 100 if total_tests_count > 0 else 0
-    print(f"Your system prompt passed {int(resilient_tests_percentage)}% ({resilient_tests_count} out of {total_tests_count}) of attack simulations.")
-    print()
+    print(f"Your system prompt passed {int(resilient_tests_percentage)}% ({resilient_tests_count} out of {total_tests_count}) of attack simulations.\n")
+    if resilient_tests_count < total_tests_count:
+        print(f"Your system prompt {BRIGHT_RED}failed{RESET} the following tests:\n{RED}{''.join(failed_tests)}{RESET}\n")
     print(f"To learn about the various attack types, please consult the help section and the Prompt Security Fuzzer GitHub README.")
     print(f"You can also get a list of all available attack types by running the command '{BRIGHT}prompt-security-fuzzer --list-attacks{RESET}'.")
 
@@ -160,13 +164,14 @@ def run_interactive_chat(app_config: AppConfig):
 def run_fuzzer(app_config: AppConfig):
     # Print current app configuration
     app_config.print_as_table()
+    custom_benchmark = app_config.custom_benchmark
     target_system_prompt = app_config.system_prompt
     try:
         target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
     except (ModuleNotFoundError, ValidationError) as e:
         logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
-    client_config = ClientConfig(target_client, [target_system_prompt])
+    client_config = ClientConfig(target_client, [target_system_prompt], custom_benchmark=custom_benchmark)
 
     try:
         attack_config = AttackConfig(
@@ -178,4 +183,4 @@ def run_fuzzer(app_config: AppConfig):
         return
 
     # Run the fuzzer
-    fuzz_prompt_injections(client_config, attack_config, threads_count=app_config.num_threads)
+    fuzz_prompt_injections(client_config, attack_config, threads_count=app_config.num_threads, custom_tests=app_config.tests)

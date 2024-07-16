@@ -13,6 +13,7 @@
 ![ci](https://github.com/prompt-security/ps-fuzz/actions/workflows/ci.yml/badge.svg)
 ![GitHub contributors](https://img.shields.io/github/contributors/prompt-security/ps-fuzz)
 ![Last release](https://img.shields.io/github/v/release/prompt-security/ps-fuzz)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/148n5M1wZXp-ojhnh-_KP01OYtUwJwlUl?usp=sharing)
 </h2>
 
 
@@ -190,11 +191,29 @@ Run tests against the system prompt (in non-interactive batch mode):
     prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt
 ```
 
+#### 📺 Custom Benchmark!
+Run tests against the system prompt with a custom benchmark
+
+```
+    prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt --custom-benchmark=ps_fuzz/attack_data/custom_benchmark1.csv
+```
+
+#### 🐹 Run only a subset of attacks!
+Run tests against the system prompt with a subset of attacks
+
+```
+    prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt --custom-benchmark=ps_fuzz/attack_data/custom_benchmark1.csv --tests='["ucar","amnesia"]'
+```
+
 <br>
 <br>
 <br>
 
-
+<a id="colab"></a>
+## 📓 Google Colab Notebook
+Refine and harden your system prompt in our [Google Colab Notebook](https://colab.research.google.com/drive/148n5M1wZXp-ojhnh-_KP01OYtUwJwlUl?usp=sharing)<br><br>
+<img src="./resources/PromptFuzzer.png" alt="Prompt Fuzzer Refinement Process"/>
+<br><br>
 <a id="demovideo"></a>
 ## 🎬 Demo video
 [![Watch the video](https://img.youtube.com/vi/8RtqtPI_bsE/hqdefault.jpg)](https://www.youtube.com/watch?v=8RtqtPI_bsE)
@@ -245,9 +264,9 @@ We use a dynamic testing approach, where we get the necessary context from your 
 <a id="roadmap"></a>
 ## :rainbow: What’s next on the roadmap?
 
-- [ ]  Google Colab Notebook
+- [X]  Google Colab Notebook
+- [X]  Adjust the output evaluation mechanism for prompt dataset testing
 - [ ]  More attack types
-- [ ]  Adjust the output evaluation mechanism for prompt dataset testing
 - [ ]  Better reporting capabilites
 - [ ]  Hardening recommendations
 

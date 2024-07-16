@@ -42,7 +42,7 @@ def main():
     if args.list_attacks:
         client_config = ClientConfig(FakeChatClient(), [])
         attack_config = AttackConfig(FakeChatClient(), 1)
-        tests = instantiate_tests(client_config, attack_config)
+        tests = instantiate_tests(client_config, attack_config,[],True)
         print("Available attacks:")
         for test_name, test_description in sorted([(cls.test_name, cls.test_description) for cls in tests]):
             print(f"{BRIGHT}{test_name}{RESET}:\n{wrap_text(test_description)}")
@@ -52,7 +52,7 @@ def main():
     setup_logging(args.debug_level if args.debug_level is not None else 1)
 
     # Load application config from file (if exists)
-    app_config = AppConfig(APP_CONFIG_FILE)
+    app_config = AppConfig(config_state_file=APP_CONFIG_FILE)
 
     # Apply any overrides from command line arguments/options, overriding anything loaded from config file
     app_config.update_from_args(args)
