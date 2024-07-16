@@ -183,4 +183,4 @@ def run_fuzzer(app_config: AppConfig):
         return
 
     # Run the fuzzer
-    fuzz_prompt_injections(client_config, attack_config, threads_count=app_config.num_threads, tests=app_config.tests)
+    fuzz_prompt_injections(client_config, attack_config, threads_count=app_config.num_threads, custom_tests=app_config.tests)
