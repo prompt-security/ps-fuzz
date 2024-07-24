@@ -19,7 +19,7 @@
 
 <div align="center">
 
-<h4> Brought to you by [Prompt Security]([url](https://www.prompt.security/)), the Complete Platform for GenAI Security
+<h4> Brought to you by Prompt Security, the Complete Platform for GenAI Security
 
 </div>
 
