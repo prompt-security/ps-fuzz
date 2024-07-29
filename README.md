@@ -266,8 +266,8 @@ We use a dynamic testing approach, where we get the necessary context from your 
 
 - [X]  Google Colab Notebook
 - [X]  Adjust the output evaluation mechanism for prompt dataset testing
-- [ ]  More attack types
-- [ ]  Better reporting capabilites
+- [ ]  Continue adding new GenAI attack types
+- [ ]  Enhaced reporting capabilites
 - [ ]  Hardening recommendations
 
 Turn this into a community project! We want this to be useful to everyone building GenAI applications. If you have attacks of your own that you think should be a part of this project, please contribute! This is how: https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md
