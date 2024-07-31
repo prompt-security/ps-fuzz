@@ -216,7 +216,7 @@ Refine and harden your system prompt in our [Google Colab Notebook](https://cola
 <br><br>
 <a id="demovideo"></a>
 ## 🎬 Demo video
-[![Watch the video](https://img.youtube.com/vi/8RtqtPI_bsE/hqdefault.jpg)](https://www.youtube.com/watch?v=8RtqtPI_bsE)
+[![Watch the video](https://img.youtube.com/vi/xCO3_LHPH2Q/hqdefault.jpg)](https://www.youtube.com/watch?v=xCO3_LHPH2Q)
 
 <a id="attacks"></a>
 ## :crossed_swords: Simulated Attack Details
