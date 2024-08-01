@@ -126,7 +126,10 @@ class AppConfig:
 
     @custom_benchmark.setter
     def custom_benchmark(self, value: str):
-        if not value: raise ValueError("Custom benchmark file cannot be empty, has to be a path to file")
+        if not value: #raise ValueError("Custom benchmark file cannot be empty, has to be a path to file")
+            self.config_state['custom_benchmark'] = value
+            self.save()
+            return
         if not os.path.exists(value): raise ValueError("Custom benchmark file does not exist")
         if not os.path.isfile(value): raise ValueError("Custom benchmark file is not a file")
         if not os.access(value, os.R_OK): raise ValueError("Custom benchmark file is not readable")
@@ -208,7 +211,7 @@ def parse_cmdline_args():
     parser.add_argument('--attack-model', type=str, default=None, help="Attack model")
     parser.add_argument('--target-provider', type=str, default=None, help="Target provider")
     parser.add_argument('--target-model', type=str, default=None, help="Target model")
-    parser.add_argument('--custom-benchmark', type=str, default=None, help="Custom benchmark file")
+    parser.add_argument('--custom-benchmark', type=str, default='', help="Custom benchmark file")
     parser.add_argument('--tests', type=str, default='', help="Custom test configuration (LIST)")
     parser.add_argument('-n', '--num-attempts', type=int, default=None, help="Number of different attack prompts")
     parser.add_argument('-t', '--num-threads', type=int, default=None, help="Number of worker threads")
