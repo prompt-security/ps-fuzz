@@ -2,7 +2,8 @@ name: Release to GitHub
 
 on:
   release:
-    types: [created]
+    types: [created, updated]
+  workflow_dispatch: 
 
 jobs:
   release:
