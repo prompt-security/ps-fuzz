@@ -10,5 +10,6 @@ from .attacks import (
     complimentary_transition,
     harmful_behavior,
     base64_injection,
-    custom_benchmark
+    custom_benchmark,
+    deception_adherence,
 )
