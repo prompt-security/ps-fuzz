@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
 setup(
-    name="prompt-security-fuzzer",
+    name="patched-prompt-security-fuzzer",
     version=os.getenv('PKG_VERSION', '0.0.1'),
     author="Prompt Security",
     author_email="support@prompt.security",
@@ -31,22 +31,22 @@ setup(
     ],
     python_requires='>=3.7',
     install_requires=[
-        "openai==1.6.1",
-        "langchain==0.0.353",
-        "langchain-community==0.0.7",
-        "langchain-core==0.1.4",
-        "argparse==1.4.0",
-        "python-dotenv==1.0.0",
-        "tqdm==4.66.1",
-        "colorama==0.4.6",
-        "prettytable==3.10.0",
-        "pandas==2.2.2",
-        "inquirer==3.2.4",
-        "prompt-toolkit==3.0.43",
-        "fastparquet==2024.2.0"
+        "openai>=1.6.1",
+        "langchain>=0.0.353",
+        "langchain-community>=0.0.7",
+        "langchain-core>=0.1.4",
+        "argparse>=1.4.0",
+        "python-dotenv>=1.0.0",
+        "tqdm>=4.66.1",
+        "colorama>=0.4.6",
+        "prettytable>=3.10.0",
+        "pandas>=2.2.2",
+        "inquirer>=3.2.4",
+        "prompt-toolkit>=3.0.43",
+        "fastparquet>=2024.2.0"
     ],
     extras_require={
-        "dev": ["pytest==7.4.4"]
+        "dev": ["pytest>=7.4.4"]
     },
     entry_points={
         'console_scripts': [
