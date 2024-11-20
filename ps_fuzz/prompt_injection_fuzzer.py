@@ -1,3 +1,4 @@
+from typing import Callable
 from .app_config import AppConfig
 from .chat_clients import *
 from .client_config import ClientConfig
@@ -5,13 +6,14 @@ from .attack_config import AttackConfig
 from .test_base import TestStatus, StatusUpdate
 from .test_base import TestBase
 from .attack_registry import instantiate_tests
-from .attack_loader import * # load and register attacks defined in 'attack/*.py'
+from .attack_loader import *  # load and register attacks defined in 'attack/*.py'
 from .work_progress_pool import WorkProgressPool, ThreadSafeTaskIterator, ProgressWorker
 from .interactive_chat import *
 from .results_table import print_table
 import colorama
 from pydantic import ValidationError
 import logging
+
 logger = logging.getLogger(__name__)
 
 RESET = colorama.Style.RESET_ALL
@@ -21,6 +23,7 @@ BRIGHT_CYAN = colorama.Fore.CYAN + colorama.Style.BRIGHT
 RED = colorama.Fore.RED
 GREEN = colorama.Fore.GREEN
 BRIGHT_YELLOW = colorama.Fore.LIGHTYELLOW_EX + colorama.Style.BRIGHT
+
 
 class TestTask(object):
     def __init__(self, test):
@@ -37,10 +40,10 @@ class TestTask(object):
                 elif statusUpdate.action == "Attacking":
                     color = RED
                 progress_worker.update(
-                    task_name = f"{color}{statusUpdate.action}{RESET}: {statusUpdate.test_name}",
-                    progress = statusUpdate.progress_position,
-                    total = statusUpdate.progress_total,
-                    colour = "BLUE"
+                    task_name=f"{color}{statusUpdate.action}{RESET}: {statusUpdate.test_name}",
+                    progress=statusUpdate.progress_position,
+                    total=statusUpdate.progress_total,
+                    colour="BLUE",
                 )
         elif result and isinstance(result, StatusUpdate):
             color = RESET
@@ -50,33 +53,48 @@ class TestTask(object):
                 color = RED
             statusUpdate = result
             progress_worker.update(
-                task_name = f"{color}{statusUpdate.action}{RESET}: {statusUpdate.test_name}",
-                progress = statusUpdate.progress_position,
-                total = statusUpdate.progress_total,
-                colour = "BLUE"
+                task_name=f"{color}{statusUpdate.action}{RESET}: {statusUpdate.test_name}",
+                progress=statusUpdate.progress_position,
+                total=statusUpdate.progress_total,
+                colour="BLUE",
             )
         else:
-            raise RuntimeError(f"BUG: Test {self.test.test_name} returned an unexpected result: {result}. Please fix the test run() function!")
+            raise RuntimeError(
+                f"BUG: Test {self.test.test_name} returned an unexpected result: {result}. Please fix the test run() function!"
+            )
 
-def simpleProgressBar(progress, total, color, bar_length = 50):
+
+def simpleProgressBar(progress, total, color, bar_length=50):
     "Generate printable progress bar"
     if total > 0:
         filled_length = int(round(bar_length * progress / float(total)))
-        bar = "█" * filled_length + '-' * (bar_length - filled_length)
+        bar = "█" * filled_length + "-" * (bar_length - filled_length)
         return f"[{color}{bar}{RESET}] {progress}/{total}"
     else:
         return f"[]"
+
 
 def isResilient(test_status: TestStatus):
     "Define test as passed if there were no errors or failures during test run"
     return test_status.breach_count == 0 and test_status.error_count == 0
 
-def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackConfig, threads_count: int, custom_tests: List = None):
+
+def fuzz_prompt_injections(
+    client_config: ClientConfig,
+    attack_config: AttackConfig,
+    threads_count: int,
+    custom_tests: List = None,
+):
     print(f"{BRIGHT_CYAN}Running tests on your system prompt{RESET} ...")
 
     # Instantiate all tests
     has_custom_benchmark = client_config.custom_benchmark is not None
-    tests: List[TestBase] = instantiate_tests(client_config, attack_config, custom_tests=custom_tests, custom_benchmark=has_custom_benchmark)
+    tests: List[TestBase] = instantiate_tests(
+        client_config,
+        attack_config,
+        custom_tests=custom_tests,
+        custom_benchmark=has_custom_benchmark,
+    )
 
     # Create a thread pool to run tests within in parallel
     work_pool = WorkProgressPool(threads_count)
@@ -94,8 +112,8 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
     ERROR = f"{BRIGHT_YELLOW}⚠{RESET}"
 
     print_table(
-        title = "Test results",
-        headers = [
+        title="Test results",
+        headers=[
             "",
             "Attack Type",
             "Broken",
@@ -103,41 +121,72 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
             "Errors",
             "Strength",
         ],
-        data = sorted([
+        data=sorted(
             [
-                ERROR if test.status.error_count > 0 else RESILIENT if isResilient(test.status) else VULNERABLE,
-                f"{test.test_name + ' ':.<{50}}",
-                test.status.breach_count,
-                test.status.resilient_count,
-                test.status.error_count,
-                simpleProgressBar(test.status.resilient_count, test.status.total_count, GREEN if isResilient(test.status) else RED),
-            ]
-            for test in tests
-        ], key=lambda x: x[1]),
-        footer_row = [
-                ERROR if all(test.status.error_count > 0 for test in tests) else RESILIENT if all(isResilient(test.status) for test in tests) else VULNERABLE,
-                f"{'Total (# tests): ':.<50}",
-                sum(not isResilient(test.status) for test in tests),
+                [
+                    (
+                        ERROR
+                        if test.status.error_count > 0
+                        else RESILIENT if isResilient(test.status) else VULNERABLE
+                    ),
+                    f"{test.test_name + ' ':.<{50}}",
+                    test.status.breach_count,
+                    test.status.resilient_count,
+                    test.status.error_count,
+                    simpleProgressBar(
+                        test.status.resilient_count,
+                        test.status.total_count,
+                        GREEN if isResilient(test.status) else RED,
+                    ),
+                ]
+                for test in tests
+            ],
+            key=lambda x: x[1],
+        ),
+        footer_row=[
+            (
+                ERROR
+                if all(test.status.error_count > 0 for test in tests)
+                else (
+                    RESILIENT
+                    if all(isResilient(test.status) for test in tests)
+                    else VULNERABLE
+                )
+            ),
+            f"{'Total (# tests): ':.<50}",
+            sum(not isResilient(test.status) for test in tests),
+            sum(isResilient(test.status) for test in tests),
+            sum(test.status.error_count > 0 for test in tests),
+            simpleProgressBar(  # Total progress shows percentage of resilient tests among all tests
                 sum(isResilient(test.status) for test in tests),
-                sum(test.status.error_count > 0 for test in tests),
-                simpleProgressBar( # Total progress shows percentage of resilient tests among all tests
-                    sum(isResilient(test.status) for test in tests),
-                    len(tests),
-                    GREEN if all(isResilient(test.status) for test in tests) else RED
-                ),
-        ]
+                len(tests),
+                GREEN if all(isResilient(test.status) for test in tests) else RED,
+            ),
+        ],
     )
 
     resilient_tests_count = sum(isResilient(test.status) for test in tests)
-    failed_tests = [f"{test.test_name}\n" if not isResilient(test.status) else "" for test in tests]
+    failed_tests = [
+        f"{test.test_name}\n" if not isResilient(test.status) else "" for test in tests
+    ]
 
     total_tests_count = len(tests)
-    resilient_tests_percentage = resilient_tests_count / total_tests_count * 100 if total_tests_count > 0 else 0
-    print(f"Your system prompt passed {int(resilient_tests_percentage)}% ({resilient_tests_count} out of {total_tests_count}) of attack simulations.\n")
+    resilient_tests_percentage = (
+        resilient_tests_count / total_tests_count * 100 if total_tests_count > 0 else 0
+    )
+    print(
+        f"Your system prompt passed {int(resilient_tests_percentage)}% ({resilient_tests_count} out of {total_tests_count}) of attack simulations.\n"
+    )
     if resilient_tests_count < total_tests_count:
-        print(f"Your system prompt {BRIGHT_RED}failed{RESET} the following tests:\n{RED}{''.join(failed_tests)}{RESET}\n")
-    print(f"To learn about the various attack types, please consult the help section and the Prompt Security Fuzzer GitHub README.")
-    print(f"You can also get a list of all available attack types by running the command '{BRIGHT}prompt-security-fuzzer --list-attacks{RESET}'.")
+        print(
+            f"Your system prompt {BRIGHT_RED}failed{RESET} the following tests:\n{RED}{''.join(failed_tests)}{RESET}\n"
+        )
+    print(
+        f"To learn about the various attack types, please consult the help section and the Prompt Security Fuzzer GitHub README."
+    )
+    print(
+        f"You can also get a list of all available attack types by running the command '{BRIGHT}prompt-security-fuzzer --list-attacks{RESET}'."
+    )
 
     # Print detailed test progress logs (TODO: select only some relevant representative entries and output to a "report" file, which is different from a debug .log file!)
     """
@@ -150,37 +199,86 @@ def fuzz_prompt_injections(client_config: ClientConfig, attack_config: AttackCon
             print(f"Additional info: {entry.additional_info}")
     """
 
+
 def run_interactive_chat(app_config: AppConfig):
     # Print current app configuration
     app_config.print_as_table()
     target_system_prompt = app_config.system_prompt
     try:
-        target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
+        target_client = ClientLangChain(
+            app_config.target_provider, model=app_config.target_model, temperature=0
+        )
         interactive_chat(client=target_client, system_prompts=[target_system_prompt])
     except (ModuleNotFoundError, ValidationError) as e:
-        logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
+        logger.warning(
+            f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}"
+        )
         return
 
-def run_fuzzer(app_config: AppConfig):
+
+def run_fuzzer(
+    app_config: AppConfig,
+    target_client_initializer: Callable[[], ClientBase] = None,
+    target_client: ClientBase = None,
+):
     # Print current app configuration
     app_config.print_as_table()
     custom_benchmark = app_config.custom_benchmark
     target_system_prompt = app_config.system_prompt
-    try:
-        target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
-    except (ModuleNotFoundError, ValidationError) as e:
-        logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
-        return
-    client_config = ClientConfig(target_client, [target_system_prompt], custom_benchmark=custom_benchmark)
+    client_config = None
+
+    if target_client:
+        client_config = ClientConfig(
+            target_client=target_client,
+            target_system_prompts=(
+                [target_system_prompt] if target_system_prompt else []
+            ),
+            custom_benchmark=custom_benchmark,
+        )
+    elif target_client_initializer:
+        client_config = ClientConfig(
+            target_system_prompts=(
+                [target_system_prompt] if target_system_prompt else []
+            ),
+            custom_benchmark=custom_benchmark,
+            target_client_initializer=target_client_initializer,
+        )
+    else:
+        try:
+            target_client = ClientLangChain(
+                app_config.target_provider, model=app_config.target_model, temperature=0
+            )
+        except (ModuleNotFoundError, ValidationError) as e:
+            logger.warning(
+                f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}"
+            )
+            return
+
+        client_config = ClientConfig(
+            target_client=target_client,
+            target_system_prompts=[target_system_prompt],
+            custom_benchmark=custom_benchmark,
+        )
 
     try:
         attack_config = AttackConfig(
-            attack_client = ClientLangChain(app_config.attack_provider, model=app_config.attack_model, temperature=app_config.attack_temperature),
-            attack_prompts_count = app_config.num_attempts
+            attack_client=ClientLangChain(
+                app_config.attack_provider,
+                model=app_config.attack_model,
+                temperature=app_config.attack_temperature,
+            ),
+            attack_prompts_count=app_config.num_attempts,
         )
     except (ModuleNotFoundError, ValidationError) as e:
-        logger.warning(f"Error accessing the Attack LLM provider {app_config.attack_provider} with model '{app_config.attack_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
+        logger.warning(
+            f"Error accessing the Attack LLM provider {app_config.attack_provider} with model '{app_config.attack_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}"
+        )
         return
 
     # Run the fuzzer
-    fuzz_prompt_injections(client_config, attack_config, threads_count=app_config.num_threads, custom_tests=app_config.tests)
+    fuzz_prompt_injections(
+        client_config,
+        attack_config,
+        threads_count=app_config.num_threads,
+        custom_tests=app_config.tests,
+    )

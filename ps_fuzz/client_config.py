@@ -1,5 +1,6 @@
 from .chat_clients import ClientBase, ChatSession
-from typing import List
+from typing import Callable, List
+
 
 def summarize_system_prompts(client: ClientBase, system_prompts: List[str]) -> str:
     "Given list of system prompts, summarize them and return a short (up to 5 words) representation of the idea behind them"
@@ -15,15 +16,27 @@ def summarize_system_prompts(client: ClientBase, system_prompts: List[str]) -> s
     """
     return chat.say(user_message)
 
+
 class ClientConfig(object):
-    def __init__(self, target_client: ClientBase, target_system_prompts: List[str], custom_benchmark: str = None):
+    def __init__(
+        self,
+        target_client: ClientBase = None,
+        target_system_prompts: List[str] = None,
+        custom_benchmark: str = None,
+        target_client_initializer: Callable[[], ClientBase] = None,
+    ):
         self.target_client = target_client
         self.system_prompts = target_system_prompts
         self.system_prompts_summary = None
         self.custom_benchmark = custom_benchmark
+        self.target_client_initializer = target_client_initializer
 
     def get_target_client(self):
-        return self.target_client
+        return (
+            self.target_client_initializer()
+            if self.target_client_initializer
+            else self.target_client
+        )
 
     def get_system_prompts(self):
         return self.system_prompts
@@ -31,5 +44,7 @@ class ClientConfig(object):
     def get_system_prompts_summary(self, attack_client: ClientBase) -> str:
         if self.system_prompts_summary == None:
             # Only compute summary once (lazy, on first call)
-            self.system_prompts_summary = summarize_system_prompts(attack_client, self.system_prompts)
+            self.system_prompts_summary = summarize_system_prompts(
+                attack_client, self.system_prompts
+            )
         return self.system_prompts_summary
