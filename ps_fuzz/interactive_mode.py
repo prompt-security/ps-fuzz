@@ -101,7 +101,7 @@ class FuzzerOptions:
 class TargetLLMOptions:
     @classmethod
     def show(cls, state: AppConfig):
-        models_list = get_langchain_chat_models_info().keys()
+        models_list = list(get_langchain_chat_models_info().keys()) + ['custom']
         print("Target LLM Options: Review and modify the target LLM configuration")
         print("------------------------------------------------------------------")
         result = inquirer.prompt([
@@ -124,7 +124,7 @@ class TargetLLMOptions:
 class AttackLLMOptions:
     @classmethod
     def show(cls, state: AppConfig):
-        models_list = get_langchain_chat_models_info().keys()
+        models_list = list(get_langchain_chat_models_info().keys()) + ['custom']
         print("Attack LLM Options: Review and modify the service LLM configuration used by the tool to help attack the system prompt")
         print("---------------------------------------------------------------------------------------------------------------------")
         result = inquirer.prompt([

@@ -37,6 +37,7 @@ def main():
         print("Available providers:")
         for provider_name, provider_info in get_langchain_chat_models_info().items():
             print(f"  {BRIGHT}{provider_name}{RESET}: {provider_info.short_doc}")
+        print(f"  {BRIGHT}custom{RESET}: Custom provider")
         sys.exit(0)
 
     if args.list_attacks:

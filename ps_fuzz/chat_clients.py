@@ -1,4 +1,7 @@
 from .langchain_integration import get_langchain_chat_models_info
+import importlib
+import importlib.util
+import os
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.outputs.llm_result import LLMResult
 from langchain.schema import BaseMessage, HumanMessage, SystemMessage, AIMessage
@@ -49,6 +52,36 @@ class ClientLangChain(ClientBase):
         # Add response message to the history too
         history += [response_message]
         return response_message.content
+
+# Custom chat client using a lightweight transformers pipeline
+class ClientCustom(ClientBase):
+    """Chat model wrapper around a local transformers pipeline"""
+    def __init__(self, model_name: str):
+        module_filename = f"{model_name}.py"
+        if os.path.isfile(module_filename):
+            spec = importlib.util.spec_from_file_location(model_name, module_filename)
+            custom_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(custom_module)
+            self.custom_module = custom_module
+            logger.info(f"Custom client loaded from file '{module_filename}'")
+        else:
+            self.custom_module = importlib.import_module(model_name)
+            logger.info(f"Custom client loaded from module 'model_name'")
+        self.custom_client = self.custom_module.initialize_client()
+
+    def interact(self, history: MessageList, messages: MessageList) -> BaseMessage:
+        history += messages
+
+        prompt = ""
+        for msg in reversed(messages):
+            if isinstance(msg, HumanMessage):
+                prompt = msg.content
+                break
+
+        response = self.custom_module.generate(self.custom_client, prompt)
+
+        history.append(AIMessage(content=response))
+        return response
 
 # Chat session allows chatting against target client while maintaining state (history buffer)
 class ChatSession:

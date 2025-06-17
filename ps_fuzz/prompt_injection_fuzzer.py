@@ -155,7 +155,10 @@ def run_interactive_chat(app_config: AppConfig):
     app_config.print_as_table()
     target_system_prompt = app_config.system_prompt
     try:
-        target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
+        if app_config.target_provider == "custom":
+            target_client = ClientCustom(app_config.target_model)
+        else:
+            target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
         interactive_chat(client=target_client, system_prompts=[target_system_prompt])
     except (ModuleNotFoundError, ValidationError) as e:
         logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
@@ -167,15 +170,22 @@ def run_fuzzer(app_config: AppConfig):
     custom_benchmark = app_config.custom_benchmark
     target_system_prompt = app_config.system_prompt
     try:
-        target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
+        if app_config.target_provider == "custom":
+            target_client = ClientCustom(app_config.target_model)
+        else:
+            target_client = ClientLangChain(app_config.target_provider, model=app_config.target_model, temperature=0)
     except (ModuleNotFoundError, ValidationError) as e:
         logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
     client_config = ClientConfig(target_client, [target_system_prompt], custom_benchmark=custom_benchmark)
 
     try:
+        if app_config.attack_provider == "custom":
+            attack_client = ClientCustom(app_config.attack_model)
+        else:
+            attack_client = ClientLangChain(app_config.attack_provider, model=app_config.attack_model, temperature=app_config.attack_temperature)
         attack_config = AttackConfig(
-            attack_client = ClientLangChain(app_config.attack_provider, model=app_config.attack_model, temperature=app_config.attack_temperature),
+            attack_client = attack_client,
             attack_prompts_count = app_config.num_attempts
         )
     except (ModuleNotFoundError, ValidationError) as e:
