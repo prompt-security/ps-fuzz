@@ -209,7 +209,13 @@ class TestClientLangChainBaseURL:
         
         with patch('ps_fuzz.chat_clients.chat_models_info', test_chat_models_info):
             # Create client with empty ollama_base_url
-            
+            client = ClientLangChain(
+                backend='ollama',
+                model='llama2',
+                temperature=0.7,
+                ollama_base_url=''
+            )
+
             # Verify empty base URL parameters are passed through unchanged
             # (implementation only processes truthy values)
             call_args = mock_model_cls.call_args
