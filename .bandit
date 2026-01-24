@@ -1,0 +1,10 @@
+# Bandit configuration file
+# Exclude directories that should not be scanned
+exclude_dirs:
+  - './.venv'
+  - './.git'
+  - './build'
+  - './dist'
+  - './prompt_security_fuzzer.egg-info'
+  - './.env'
+  - './tests'  # Exclude test files - pytest uses assertions which trigger B101 warnings

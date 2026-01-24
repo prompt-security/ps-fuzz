@@ -251,6 +251,7 @@ class TestRAGPoisoning(TestBase):
             self.vectorstore.add_documents(benign_docs)
         
         # Add poisoned document
+        poisoned_doc = self._create_poisoned_document()
         with _suppress_loggers(suppress_names):
             self.vectorstore.add_documents([poisoned_doc])
         
