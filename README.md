@@ -56,6 +56,7 @@ Table of Contents
 * [Supported attacks](#attacks)
    * [Jailbreak](#jailbreak)
    * [Prompt Injection](#pi-injection)
+   * [RAG & Vector Database Attacks](#rag-poisoning)
    * [System prompt extraction](#systemleak)
 * [ :rainbow:  What’s next on the roadmap?](#roadmap)
 * [ :beers: Contributing](#contributing)
@@ -111,7 +112,7 @@ Table of Contents
 ### Features
 <b>The Prompt Fuzzer Supports:</b><br>
 🧞  16 [llm providers](#llm-providers)<br>
-🔫  15 different [attacks](#attacks)<br>
+🔫  16 different [attacks](#attacks)<br>
 💬  Interactive mode<br>
 🤖  CLI mode<br>
 🧵  Multi threaded testing<br>
@@ -163,8 +164,14 @@ Alternatively, create a file named `.env` in the current directory and set the `
 * `--num-attempts, -n`       NUM_ATTEMPTS Number of different attack prompts 
 * `--num-threads, -t`        NUM_THREADS  Number of worker threads 
 * `--attack-temperature, -a` ATTACK_TEMPERATURE  Temperature for attack model 
-* `--debug-level, -d`        DEBUG_LEVEL  Debug level (0-2)   
-* `-batch, -b`               Run the fuzzer in unattended (batch) mode, bypassing the interactive steps 
+* `--debug-level, -d`        DEBUG_LEVEL  Debug level (0-2)
+* `-batch, -b`               Run the fuzzer in unattended (batch) mode, bypassing the interactive steps
+* `--ollama-base-url`        Base URL for Ollama API (for self-hosted deployments)
+* `--openai-base-url`        Base URL for OpenAI API (for OpenAI-compatible endpoints)
+* `--embedding-provider`     Embedding provider (ollama or open_ai) - required for RAG tests
+* `--embedding-model`        Embedding model name - required for RAG tests
+* `--embedding-ollama-base-url` Base URL for Ollama Embedding API
+* `--embedding-openai-base-url` Base URL for OpenAI Embedding API
 
 <br/>
 
@@ -203,6 +210,43 @@ Run tests against the system prompt with a subset of attacks
 
 ```
     prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt --custom-benchmark=ps_fuzz/attack_data/custom_benchmark1.csv --tests='["ucar","amnesia"]'
+```
+
+#### 🧪 RAG Poisoning Attack
+Test RAG systems with vector database poisoning attacks
+
+```bash
+# Using OpenAI embeddings
+prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt \
+    --embedding-provider=open_ai \
+    --embedding-model=text-embedding-ada-002 \
+    --tests='["rag_poisoning"]'
+
+# Using Ollama embeddings with custom endpoint
+prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt \
+    --embedding-provider=ollama \
+    --embedding-model=nomic-embed-text \
+    --embedding-ollama-base-url=http://localhost:11434 \
+    --tests='["rag_poisoning"]'
+```
+
+**Note**: Requires chromadb (installed by default with prompt-security-fuzzer)
+
+#### 🔌 Using Custom API Endpoints
+Run tests against custom or self-hosted LLM deployments
+
+```bash
+# Using custom Ollama endpoint
+prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt \
+    --target-provider=ollama \
+    --target-model=llama2 \
+    --ollama-base-url=http://localhost:11434
+
+# Using OpenAI-compatible endpoint (e.g., LocalAI, vLLM, LM Studio)
+prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt \
+    --target-provider=open_ai \
+    --target-model=custom-model \
+    --openai-base-url=http://your-custom-endpoint:8000/v1
 ```
 
 <br>
@@ -244,6 +288,11 @@ We use a dynamic testing approach, where we get the necessary context from your 
 - **Complimentary Transition**: Tests ability to maintain content standards when switching topics after a compliment.
 - **Ethical Compliance**: Evaluates resistance to discussing harmful or inappropriate content about sensitive topics.
 - **Typoglycemia Attack**: Exploits text processing vulnerabilities by omitting random characters, causing incorrect responses.
+
+<a id="rag-poisoning"></a>
+##### RAG & Vector Database Attacks
+
+- **RAG Poisoning (Hidden Parrot Attack)**: Tests whether malicious instructions embedded in vector database documents can compromise RAG system behavior. This attack verifies if poisoned content retrieved from vector stores can override system prompts or inject unauthorized instructions into LLM responses.
 
 <a id="systemleak"></a>
 ##### System prompt extraction
