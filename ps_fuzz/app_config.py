@@ -210,8 +210,7 @@ class AppConfig:
     
     @embedding_provider.setter
     def embedding_provider(self, value: str):
-        if not value: raise ValueError("Embedding provider cannot be empty")
-        self.config_state['embedding_provider'] = value
+        self.config_state['embedding_provider'] = value if value else ''
         self.save()
         
     @property
@@ -238,8 +237,7 @@ class AppConfig:
     
     @embedding_model.setter
     def embedding_model(self, value: str):
-        if not value: raise ValueError("Embedding model cannot be empty")
-        self.config_state['embedding_model'] = value
+        self.config_state['embedding_model'] = value if value else ''
         self.save()
 
     def update_from_args(self, args):
