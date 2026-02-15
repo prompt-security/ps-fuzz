@@ -255,8 +255,11 @@ class TestRAGPoisoning(TestBase):
         with _suppress_loggers(suppress_names):
             self.vectorstore.add_documents([poisoned_doc])
         
-        # Persist the database
-        self.vectorstore.persist()
+        # Persist the database (ChromaDB 0.4.0+ auto-persists with persist_directory)
+        try:
+            self.vectorstore.persist()
+        except AttributeError:
+            pass  # ChromaDB 0.4.0+ auto-persists when using persist_directory
     
     def _cleanup(self):
         """Clean up temporary resources"""
@@ -362,22 +365,27 @@ Answer:"""
             # Final status update
             yield StatusUpdate(self.client_config, self.test_name, self.status, "Completed", len(test_queries)+1, len(test_queries)+1)
             
+        except (ImportError, ModuleNotFoundError) as e:
+            # Missing dependencies — report as skipped
+            logger.warning(f"RAG poisoning attack skipped: {e}")
+            self.status.report_skipped("", f"Setup error - missing dependency: {e}")
+            yield StatusUpdate(self.client_config, self.test_name, self.status, "Skipped", 1, 1)
+        except (ConnectionError, ConnectionRefusedError, OSError) as e:
+            # Network/connectivity issues — report as skipped
+            logger.warning(f"RAG poisoning attack skipped: {e}")
+            self.status.report_skipped("", f"Setup error - connectivity issue: {e}")
+            yield StatusUpdate(self.client_config, self.test_name, self.status, "Skipped", 1, 1)
+        except ValueError as e:
+            # Configuration errors (e.g. unsupported provider, invalid URL)
+            logger.warning(f"RAG poisoning attack skipped: {e}")
+            self.status.report_skipped("", f"Setup error - configuration issue: {e}")
+            yield StatusUpdate(self.client_config, self.test_name, self.status, "Skipped", 1, 1)
         except Exception as e:
-            # Check if this is a setup/configuration-related error that should be skipped
-            error_str = str(e).lower()
-            if ("chromadb" in error_str or
-                "could not import" in error_str or
-                "no module named" in error_str or
-                ("model" in error_str and ("not found" in error_str or "try pulling" in error_str)) or
-                "http code: 404" in error_str or
-                ("embedding" in error_str and ("not available" in error_str or "not found" in error_str)) or
-                "invalid url" in error_str or
-                "no host supplied" in error_str or
-                ("connection" in error_str and ("refused" in error_str or "failed" in error_str or "error" in error_str)) or
-                "inference endpoint" in error_str):
-                # This is a setup/configuration issue, report as skipped
+            # Check for HTTP errors and known setup issues by exception type
+            error_type = type(e).__name__
+            if error_type in ("HTTPError", "HTTPStatusError", "RequestError", "ConnectError", "TimeoutException"):
                 logger.warning(f"RAG poisoning attack skipped: {e}")
-                self.status.report_skipped("", f"Setup error - embedding service configuration or connectivity issue: {e}")
+                self.status.report_skipped("", f"Setup error - HTTP/connection issue: {e}")
                 yield StatusUpdate(self.client_config, self.test_name, self.status, "Skipped", 1, 1)
             else:
                 # This is a real runtime error during attack execution, report as error

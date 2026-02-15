@@ -96,13 +96,13 @@ class TestClientLangChainBaseURL:
         
         with patch('ps_fuzz.chat_clients.chat_models_info', test_chat_models_info):
             # Create client with openai_base_url parameter
-            client = ClientLangChain(
+            ClientLangChain(
                 backend='open_ai',
                 model='gpt-3.5-turbo',
                 temperature=0.5,
                 openai_base_url='https://api.openai.com/v1'
             )
-            
+
             # Verify the model was called with base_url instead of openai_base_url
             mock_model_cls.assert_called_once_with(
                 model='gpt-3.5-turbo',
@@ -127,30 +127,30 @@ class TestClientLangChainBaseURL:
         )
         
         with patch('ps_fuzz.chat_clients.chat_models_info', test_chat_models_info):
-            client = ClientLangChain(
+            ClientLangChain(
                 backend='ollama',
                 model='llama2',
                 ollama_base_url='http://localhost:11434'
             )
-            
+
             # Verify ollama_base_url was not passed to the model constructor
             call_args = mock_model_cls.call_args
             assert 'ollama_base_url' not in call_args.kwargs
             assert 'base_url' in call_args.kwargs
             assert call_args.kwargs['base_url'] == 'http://localhost:11434'
-        
+
         # Reset mock for openai test
         mock_model_cls.reset_mock()
-        
+
         # Test openai parameter removal
         test_chat_models_info['open_ai'] = ChatModelInfo(
             model_cls=mock_model_cls,
             doc="Test openai provider",
             params={}
         )
-        
+
         with patch('ps_fuzz.chat_clients.chat_models_info', test_chat_models_info):
-            client = ClientLangChain(
+            ClientLangChain(
                 backend='open_ai',
                 model='gpt-3.5-turbo',
                 openai_base_url='https://api.openai.com/v1'
@@ -179,12 +179,12 @@ class TestClientLangChainBaseURL:
         
         with patch('ps_fuzz.chat_clients.chat_models_info', test_chat_models_info):
             # Create client without base URL parameters
-            client = ClientLangChain(
+            ClientLangChain(
                 backend='ollama',
                 model='llama2',
                 temperature=0.7
             )
-            
+
             # Verify no base_url parameter was added
             call_args = mock_model_cls.call_args
             assert 'base_url' not in call_args.kwargs
@@ -209,42 +209,40 @@ class TestClientLangChainBaseURL:
         
         with patch('ps_fuzz.chat_clients.chat_models_info', test_chat_models_info):
             # Create client with empty ollama_base_url
-            client = ClientLangChain(
+            ClientLangChain(
                 backend='ollama',
                 model='llama2',
                 temperature=0.7,
                 ollama_base_url=''
             )
 
-            # Verify empty base URL parameters are passed through unchanged
-            # (implementation only processes truthy values)
+            # Verify empty base URL parameters are filtered out
             call_args = mock_model_cls.call_args
             assert 'base_url' not in call_args.kwargs
-            assert call_args.kwargs['ollama_base_url'] == ''
-        
+            assert 'ollama_base_url' not in call_args.kwargs
+
         # Reset mock for openai test
         mock_model_cls.reset_mock()
-        
+
         test_chat_models_info['open_ai'] = ChatModelInfo(
             model_cls=mock_model_cls,
             doc="Test openai provider",
             params={}
         )
-        
+
         with patch('ps_fuzz.chat_clients.chat_models_info', test_chat_models_info):
             # Create client with empty openai_base_url
-            client = ClientLangChain(
+            ClientLangChain(
                 backend='open_ai',
                 model='gpt-3.5-turbo',
                 temperature=0.5,
                 openai_base_url=''
             )
-            
-            # Verify empty base URL parameters are passed through unchanged
-            # (implementation only processes truthy values)
+
+            # Verify empty base URL parameters are filtered out
             call_args = mock_model_cls.call_args
             assert 'base_url' not in call_args.kwargs
-            assert call_args.kwargs['openai_base_url'] == ''
+            assert 'openai_base_url' not in call_args.kwargs
     
     @patch('ps_fuzz.chat_clients.chat_models_info', fake_chat_models_info)
     def test_base_url_with_other_parameters(self):
@@ -263,7 +261,7 @@ class TestClientLangChainBaseURL:
         
         with patch('ps_fuzz.chat_clients.chat_models_info', test_chat_models_info):
             # Create client with base URL and other parameters
-            client = ClientLangChain(
+            ClientLangChain(
                 backend='ollama',
                 model='llama2',
                 temperature=0.8,
