@@ -8,7 +8,7 @@ from ps_fuzz.client_config import ClientConfig
 from typing import Dict, List
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.outputs import LLMResult, ChatResult, ChatGeneration
-from langchain_core.pydantic_v1 import Field
+from pydantic import Field
 
 # Fake LangChain model
 class FakeChatModel(BaseChatModel):

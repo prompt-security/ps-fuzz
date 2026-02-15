@@ -1,7 +1,7 @@
 from .langchain_integration import get_langchain_chat_models_info
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.outputs.llm_result import LLMResult
-from langchain.schema import BaseMessage, HumanMessage, SystemMessage, AIMessage
+from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage, AIMessage
 from typing import List, Dict, Any, Optional
 from abc import ABC, abstractmethod
 import sys

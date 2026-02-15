@@ -52,7 +52,7 @@ except ImportError:
     MISSING_PACKAGES.append("langchain-community (embeddings)")
 
 try:
-    from langchain.schema import Document
+    from langchain_core.documents import Document
 except ImportError:
     DEPENDENCIES_AVAILABLE = False
     MISSING_PACKAGES.append("langchain (schema)")
