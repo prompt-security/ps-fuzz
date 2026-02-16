@@ -31,8 +31,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: dist/*
-        name: Release ${{ env.PKG_VERSION }} of ${{ github.repository }}
-        body: This is the release of ${{ github.repository }} for version ${{ env.PKG_VERSION }}
+        append_body: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
