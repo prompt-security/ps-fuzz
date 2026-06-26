@@ -1,5 +1,5 @@
 import colorama
-from prettytable import PrettyTable, SINGLE_BORDER
+from prettytable import PrettyTable, TableStyle
 
 RESET = colorama.Style.RESET_ALL
 BRIGHT = colorama.Style.BRIGHT
@@ -13,7 +13,7 @@ def print_table(title, headers, data, footer_row=None):
         align="l",
         field_names = [f"{BRIGHT}{h}{RESET}" for h in headers]
     )
-    table.set_style(SINGLE_BORDER)
+    table.set_style(TableStyle.SINGLE_BORDER)
     for data_row in data:
         table_row = []
         for i, _ in enumerate(headers):

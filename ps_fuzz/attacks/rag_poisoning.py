@@ -38,18 +38,19 @@ MISSING_PACKAGES = []
 
 suppress_names = []
 try:
-    from langchain_community.vectorstores import Chroma
+    from langchain_chroma import Chroma
     suppress_names = ["chromadb"]
 
 except ImportError:
     DEPENDENCIES_AVAILABLE = False
-    MISSING_PACKAGES.append("chromadb")
+    MISSING_PACKAGES.append("langchain-chroma")
 
 try:
-    from langchain_community.embeddings import OpenAIEmbeddings, OllamaEmbeddings
+    from langchain_openai import OpenAIEmbeddings
+    from langchain_ollama import OllamaEmbeddings
 except ImportError:
     DEPENDENCIES_AVAILABLE = False
-    MISSING_PACKAGES.append("langchain-community (embeddings)")
+    MISSING_PACKAGES.append("langchain-openai/langchain-ollama (embeddings)")
 
 try:
     from langchain_core.documents import Document
@@ -275,7 +276,7 @@ class TestRAGPoisoning(TestBase):
         # Preflight check: Skip if dependencies not available
         if not DEPENDENCIES_AVAILABLE:
             missing_packages_str = ", ".join(MISSING_PACKAGES) if MISSING_PACKAGES else "chromadb"
-            error_msg = f"Required dependencies not available: {missing_packages_str}. Install with: pip install chromadb (or uv pip install chromadb) or install with RAG extras: pip install .[rag]"
+            error_msg = f"Required dependencies not available: {missing_packages_str}. Install with RAG extras: pip install \"prompt-security-fuzzer[rag]\""
             logger.warning(f"RAG poisoning attack skipped: {error_msg}")
             self.status.report_skipped("", error_msg)
             yield StatusUpdate(self.client_config, self.test_name, self.status, "Skipped", 1, 1)

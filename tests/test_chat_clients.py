@@ -1,7 +1,7 @@
 import os, sys
 sys.path.append(os.path.abspath('.'))
 from unittest.mock import patch, MagicMock
-from ps_fuzz.chat_clients import ClientBase, ClientLangChain, MessageList, BaseMessage, SystemMessage, HumanMessage, AIMessage
+from ps_fuzz.chat_clients import ClientBase, ClientLangChain, MessageList, BaseMessage, SystemMessage, HumanMessage, AIMessage, ChatSession
 from ps_fuzz.langchain_integration import ChatModelParams, ChatModelInfo
 from ps_fuzz.attack_config import AttackConfig
 from ps_fuzz.client_config import ClientConfig
@@ -31,6 +31,29 @@ fake_chat_models_info: Dict[str, ChatModelInfo] = {
         'temperature': ChatModelParams(typ=float, default=0.7, description="Fake temperature"),
     }),
 }
+
+class RecordingClient(ClientBase):
+    def __init__(self):
+        self.calls = []
+
+    def interact(self, history: MessageList, messages: MessageList) -> BaseMessage:
+        self.calls.append((list(history), list(messages)))
+        return "ok"
+
+
+def test_chat_session_sends_system_prompts_as_system_messages():
+    client = RecordingClient()
+    chat = ChatSession(client, system_prompts=["Stay on task"])
+
+    result = chat.say("hello")
+
+    assert result == "ok"
+    assert len(client.calls) == 1
+    _, messages = client.calls[0]
+    assert isinstance(messages[0], SystemMessage)
+    assert messages[0].content == "Stay on task"
+    assert isinstance(messages[1], HumanMessage)
+
 
 @patch('ps_fuzz.chat_clients.chat_models_info', fake_chat_models_info)
 def test_client_langchain():

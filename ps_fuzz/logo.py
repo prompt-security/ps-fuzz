@@ -1,9 +1,18 @@
 import colorama
+import sys
 
 RESET = colorama.Style.RESET_ALL
 DIM_WHITE = colorama.Style.DIM + colorama.Fore.WHITE
 LIGHT_MAGENTA = colorama.Fore.LIGHTMAGENTA_EX
 MAGENTA = colorama.Fore.MAGENTA
+
+def _print_unicode_safe(text):
+    try:
+        print(text)
+    except UnicodeEncodeError:
+        encoding = getattr(sys.stdout, "encoding", None) or "ascii"
+        fallback = text.encode(encoding, errors="replace").decode(encoding)
+        print(fallback)
 
 def print_logo():
     logo = """
@@ -25,4 +34,4 @@ def print_logo():
                                                                                                              ██████                                     
                                                                                                              ██████                                     
 """.replace('█', f"{DIM_WHITE}█{RESET}").replace('░', f"{LIGHT_MAGENTA}░{RESET}").replace('▓', f"{MAGENTA}▓{RESET}").replace('▒', f"{MAGENTA}▒{RESET}").replace('Z', f"{MAGENTA}▒▒▒▒▒▒{RESET}")
-    print (logo)
+    _print_unicode_safe(logo)
