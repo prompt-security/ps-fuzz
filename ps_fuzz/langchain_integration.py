@@ -87,7 +87,10 @@ def get_langchain_chat_models_info() -> Dict[str, Dict[str, Any]]:
     models: Dict[str, ChatModelInfo] = {}
     for model_cls_name in chat_models_module.__all__:
         if model_cls_name in EXCLUDED_CHAT_MODELS: continue
-        model_cls = chat_models_module.__dict__.get(model_cls_name)
+        try:
+            model_cls = getattr(chat_models_module, model_cls_name, None)
+        except Exception:
+            continue
         if model_cls and issubclass(model_cls, BaseChatModel):
             model_short_name = camel_to_snake(model_cls.__name__).replace('_chat', '').replace('chat_', '')
             # Introspect supported model parameters
