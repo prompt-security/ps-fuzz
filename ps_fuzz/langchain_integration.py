@@ -2,6 +2,9 @@ from langchain_core.language_models.chat_models import BaseChatModel
 import langchain_community.chat_models as chat_models_module
 from typing import Any, Dict, get_origin, Optional
 import inspect, re
+import logging
+
+logger = logging.getLogger(__name__)
 
 def _get_class_member_doc(cls, param_name: str) -> Optional[str]:
     lines, _ = inspect.getsourcelines(cls)
@@ -89,7 +92,8 @@ def get_langchain_chat_models_info() -> Dict[str, Dict[str, Any]]:
         if model_cls_name in EXCLUDED_CHAT_MODELS: continue
         try:
             model_cls = getattr(chat_models_module, model_cls_name, None)
-        except Exception:
+        except Exception as e:
+            logger.warning(f"Skipping chat model '{model_cls_name}': {e}")
             continue
         if model_cls and issubclass(model_cls, BaseChatModel):
             model_short_name = camel_to_snake(model_cls.__name__).replace('_chat', '').replace('chat_', '')
