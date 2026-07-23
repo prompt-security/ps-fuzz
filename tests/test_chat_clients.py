@@ -1,7 +1,7 @@
 import os, sys
 sys.path.append(os.path.abspath('.'))
 from unittest.mock import patch, MagicMock
-from ps_fuzz.chat_clients import ClientBase, ClientLangChain, MessageList, BaseMessage, SystemMessage, HumanMessage, AIMessage
+from ps_fuzz.chat_clients import ClientBase, ClientLangChain, MessageList, BaseMessage, SystemMessage, HumanMessage, AIMessage, chat_models_info
 from ps_fuzz.langchain_integration import ChatModelParams, ChatModelInfo
 from ps_fuzz.attack_config import AttackConfig
 from ps_fuzz.client_config import ClientConfig
@@ -41,6 +41,15 @@ def test_client_langchain():
     ]
     result = client_langchain.interact(history = fake_history, messages = [])
     assert result == "fakeresponse: model_name='fake-model-turbo'; temperature=0.123; messages_count=2"
+
+
+def test_chat_models_info_is_populated():
+    # Unmocked, unlike every other test in this file -- guards the real
+    # chat_models_info module attribute (chat_clients.py:15) itself, which the
+    # other tests all patch over and so would never catch going empty again.
+    assert len(chat_models_info) > 0
+    assert 'open_ai' in chat_models_info
+    assert 'anthropic' in chat_models_info
 
 
 class TestClientLangChainBaseURL:
