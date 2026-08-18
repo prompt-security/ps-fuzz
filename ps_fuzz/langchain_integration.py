@@ -1,10 +1,19 @@
 from langchain_core.language_models.chat_models import BaseChatModel
-import langchain_community.chat_models as chat_models_module
+from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from typing import Any, Dict, get_origin, Optional
 import inspect, re
 
+CHAT_MODEL_REGISTRY = {
+    'open_ai': ChatOpenAI,
+    'ollama': ChatOllama,
+}
+
 def _get_class_member_doc(cls, param_name: str) -> Optional[str]:
-    lines, _ = inspect.getsourcelines(cls)
+    try:
+        lines, _ = inspect.getsourcelines(cls)
+    except (OSError, TypeError):
+        return None
     state = 0 # 0=waiting, 1=ready, 2=reading mutliline
     doc_lines = []
     for line in lines:
@@ -78,30 +87,30 @@ class ChatModelInfo(object):
 
     @property
     def short_doc(self):
-        return self.doc[:self.doc.find('\n')]
+        if not self.doc:
+            return ""
+        return self.doc.strip().splitlines()[0]
 
 def get_langchain_chat_models_info() -> Dict[str, Dict[str, Any]]:
     """
-    Introspects a langchain library, extracting information about supported chat models and required/optional parameters
+    Introspects the supported LangChain chat integrations and extracts required/optional parameters.
     """
     models: Dict[str, ChatModelInfo] = {}
-    for model_cls_name in chat_models_module.__all__:
-        if model_cls_name in EXCLUDED_CHAT_MODELS: continue
-        model_cls = chat_models_module.__dict__.get(model_cls_name)
-        if model_cls and issubclass(model_cls, BaseChatModel):
-            model_short_name = camel_to_snake(model_cls.__name__).replace('_chat', '').replace('chat_', '')
-            # Introspect supported model parameters
-            # Support both Pydantic v1 (__fields__) and v2 (model_fields)
-            params: Dict[str, ChatModelParams] = {}
-            fields = getattr(model_cls, 'model_fields', None) or getattr(model_cls, '__fields__', {})
-            for param_name, field in fields.items():
-                if param_name in CHAT_MODEL_EXCLUDED_PARAMS: continue
-                # Pydantic v2 uses field.annotation, v1 uses field.outer_type_
-                typ = getattr(field, 'annotation', None) or getattr(field, 'outer_type_', None)
-                if typ is None: continue
-                if typ not in [str, float, int, bool] and get_origin(typ) not in [str, float, int, bool]: continue
-                doc_lines = _get_class_member_doc(model_cls, param_name)
-                description = ''.join(doc_lines) if doc_lines else None
-                params[param_name] = ChatModelParams(typ=typ, default=field.default, description=description)
-            models[model_short_name] = ChatModelInfo(model_cls=model_cls, doc=model_cls.__doc__, params=params)
+    for model_short_name, model_cls in CHAT_MODEL_REGISTRY.items():
+        if model_cls.__name__ in EXCLUDED_CHAT_MODELS: continue
+        if not issubclass(model_cls, BaseChatModel): continue
+        # Introspect supported model parameters.
+        # Support both Pydantic v1 (__fields__) and v2 (model_fields).
+        params: Dict[str, ChatModelParams] = {}
+        fields = getattr(model_cls, 'model_fields', None) or getattr(model_cls, '__fields__', {})
+        for param_name, field in fields.items():
+            if param_name in CHAT_MODEL_EXCLUDED_PARAMS: continue
+            # Pydantic v2 uses field.annotation, v1 uses field.outer_type_.
+            typ = getattr(field, 'annotation', None) or getattr(field, 'outer_type_', None)
+            if typ is None: continue
+            if typ not in [str, float, int, bool] and get_origin(typ) not in [str, float, int, bool]: continue
+            doc_lines = _get_class_member_doc(model_cls, param_name)
+            description = ''.join(doc_lines) if doc_lines else None
+            params[param_name] = ChatModelParams(typ=typ, default=field.default, description=description)
+        models[model_short_name] = ChatModelInfo(model_cls=model_cls, doc=model_cls.__doc__, params=params)
     return models

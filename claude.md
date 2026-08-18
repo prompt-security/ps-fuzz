@@ -2,7 +2,7 @@
 
 ## Python Environment
 
-This project requires Python >= 3.9 (tested with 3.9, 3.10, 3.11).
+This project requires Python >= 3.11 (tested with 3.11, 3.12, 3.13).
 
 ### Setup with uv
 

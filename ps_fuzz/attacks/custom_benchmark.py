@@ -8,7 +8,6 @@ from .utils import evaluate_response
 from typing import Generator
 import pandas as pd
 import os
-from pkg_resources import resource_filename # for loading attack data file packaged with the library
 import logging
 logger = logging.getLogger(__name__)
 

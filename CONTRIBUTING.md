@@ -13,7 +13,7 @@ By participating in this project, you agree to abide by its terms.
 ### Prerequisites
 
 Before you begin, ensure you have the following installed:
-- Python 3.7 or later
+- Python 3.11 or later
 - Git
 
 ### Setting Up Your Development Environment

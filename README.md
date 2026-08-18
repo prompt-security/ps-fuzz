@@ -111,8 +111,8 @@ Table of Contents
 <a id="features"></a>
 ### Features
 <b>The Prompt Fuzzer Supports:</b><br>
-🧞  16 [llm providers](#llm-providers)<br>
-🔫  16 different [attacks](#attacks)<br>
+🧞  OpenAI and Ollama [LLM providers](#llm-providers)<br>
+🔫  17 different [attacks](#attacks)<br>
 💬  Interactive mode<br>
 🤖  CLI mode<br>
 🧵  Multi threaded testing<br>
@@ -128,26 +128,12 @@ Example: set `OPENAI_API_KEY` with your API Token to use with your OpenAI accoun
 Alternatively, create a file named `.env` in the current directory and set the `OPENAI_API_KEY` there.
 <a id="llm-providers"></a>
 
-<details><summary>We're fully LLM agnostic. (Click for full configuration list of llm providers)</summary>
+<details><summary>Built-in LLM provider configuration</summary>
 
-| ENVIORMENT KEY| Description |
-|---------------|-------------|
-| `ANTHROPIC_API_KEY` | `Anthropic` Chat large language models.|
-| `ANYSCALE_API_KEY` |  `Anyscale` Chat large language models.|
-| `AZURE OPENAI_API_KEY` | `Azure OpenAI` Chat Completion API.|
-| `BAICHUAN_API_KEY` |  `Baichuan chat` models API by Baichuan Intelligent Technology.|
-| `COHERE_API_KEY` | `Cohere chat` large language models.|
-| `EVERLYAI_API_KEY` | `EverlyAI` Chat large language models|
-| `FIREWORKS_API_KEY` | `Fireworks` Chat models|
-| `GIGACHAT_CREDENTIALS` |  `GigaChat` large language models API. |
-| `GOOGLE_API_KEY` |  `Google PaLM` Chat models API.|
-| `JINA_API_TOKEN` |  `Jina AI` Chat models API.|
-| `KONKO_API_KEY` | `ChatKonko` Chat large language models API.|
-| `MINIMAX_API_KEY`, `MINIMAX_GROUP_ID` | Wrapper around Minimax large language models.|
-| `OPENAI_API_KEY` | `OpenAI` Chat large language models API.|
-| `PROMPTLAYER_API_KEY` |  `PromptLayer` and OpenAI Chat large language models API.|
-| `QIANFAN_AK`, `QIANFAN_SK` |  `Baidu Qianfan` chat models.|
-| `YC_API_KEY` | `YandexGPT` large language models.|
+| Provider | Environment key | Description |
+|----------|-----------------|-------------|
+| `open_ai` | `OPENAI_API_KEY` | OpenAI and OpenAI-compatible chat models. |
+| `ollama` | None | Local or self-hosted Ollama chat models. |
 </details>
 
 <br/>
@@ -186,7 +172,7 @@ System prompt examples (of various strengths) can be found in the subdirectory [
   Run tests against the system prompt
 
 ```
-    prompt_security_fuzzer 
+    prompt-security-fuzzer
 ```
 
 <a id="singlerun"></a>
@@ -230,7 +216,7 @@ prompt-security-fuzzer -b ./system_prompt.examples/medium_system_prompt.txt \
     --tests='["rag_poisoning"]'
 ```
 
-**Note**: Requires chromadb (installed by default with prompt-security-fuzzer)
+**Note**: Requires the optional RAG dependencies. Install them with `pip install "prompt-security-fuzzer[rag]"`.
 
 #### 🔌 Using Custom API Endpoints
 Run tests against custom or self-hosted LLM deployments
@@ -316,7 +302,7 @@ We use a dynamic testing approach, where we get the necessary context from your 
 - [X]  Google Colab Notebook
 - [X]  Adjust the output evaluation mechanism for prompt dataset testing
 - [ ]  Continue adding new GenAI attack types
-- [ ]  Enhaced reporting capabilites
+- [ ]  Enhanced reporting capabilities
 - [ ]  Hardening recommendations
 
 Turn this into a community project! We want this to be useful to everyone building GenAI applications. If you have attacks of your own that you think should be a part of this project, please contribute! This is how: https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md

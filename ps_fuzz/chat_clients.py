@@ -71,7 +71,7 @@ class ChatSession:
         self.client = client
         self.system_prompts = None
         if system_prompts:
-            self.system_prompts = list(map(lambda system_prompt_text: AIMessage(content=system_prompt_text), system_prompts))
+            self.system_prompts = list(map(lambda system_prompt_text: SystemMessage(content=system_prompt_text), system_prompts))
         self.history = []
 
     def say(self, user_prompt: str):
