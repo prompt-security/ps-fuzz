@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.9', '3.10', '3.11']
+        python-version: ['3.10', '3.11']
 
     steps:
       - name: Checkout repository
@@ -49,3 +49,11 @@ jobs:
         run: |
           chmod +x ./build_package.sh
           ./build_package.sh
+
+      - name: Verify built wheel
+        run: |
+          python -m venv .package-test-venv
+          .package-test-venv/bin/python -m pip install --upgrade pip
+          .package-test-venv/bin/python -m pip install dist/*.whl
+          .package-test-venv/bin/python -m pip check
+          .package-test-venv/bin/prompt-security-fuzzer --list-providers

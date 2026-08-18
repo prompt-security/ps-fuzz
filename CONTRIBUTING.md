@@ -13,7 +13,7 @@ By participating in this project, you agree to abide by its terms.
 ### Prerequisites
 
 Before you begin, ensure you have the following installed:
-- Python 3.7 or later
+- Python 3.10 or later
 - Git
 
 ### Setting Up Your Development Environment
@@ -29,8 +29,12 @@ cd ps-fuzz
 ### Set up a virtual environment
 
 ```bash
-python -m venv venv
+# Unix or macOS
+python3.10 -m venv venv
 source venv/bin/activate  # On Unix or macOS
+
+# Windows
+py -3.10 -m venv venv
 venv\Scripts\activate     # On Windows
 ```
 
@@ -128,7 +132,7 @@ from ..attack_config import AttackConfig
 from ..test_base import TestBase, StatusUpdate
 from ..attack_registry import register_test
 from typing import Generator
-from pkg_resources import resource_filename
+from .utils import packaged_attack_data_path
 import logging
 logger = logging.getLogger(__name__)
 ```
@@ -208,4 +212,3 @@ Here are some helpful resources to get you started with best practices for contr
 - [GitHub Flow](https://guides.github.com/introduction/flow/) - An introduction to the GitHub workflow, which explains branches, pull requests, and more.
 - [Writing Good Commit Messages](https://chris.beams.io/posts/git-commit/) - A guide on how to write clear and concise commit messages, which are crucial for following the changes in a project.
 - [Python Coding Style](https://pep8.org/) - Guidelines for writing clean and understandable Python code.
-

@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Security
+- Upgraded LangChain, LangChain Core, python-dotenv, and related provider integrations to resolve current Dependabot advisories.
+
+### Changed
+- Minimum Python version raised from 3.9 to 3.10.
+- Updated fastparquet for NumPy 2 compatibility in the upgraded runtime dependency graph.
+
 ## [2.1.0] - 2026-02-16
 
 ### Added

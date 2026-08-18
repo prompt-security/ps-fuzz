@@ -83,6 +83,7 @@ Table of Contents
 1. Install the Fuzzer package
    <a id="using-pip"></a>
    #### Using pip install
+   Requires Python 3.10 or newer.
    ```zsh
    pip install prompt-security-fuzzer
    ```
@@ -327,4 +328,3 @@ Turn this into a community project! We want this to be useful to everyone buildi
 Interested in contributing to the development of our tools? Great! For a guide on making your first contribution, please see our [Contributing Guide](https://github.com/prompt-security/ps-fuzz/blob/main/CONTRIBUTING.md#get-started-with-your-first-contribution-adding-a-new-test). This section offers a straightforward introduction to adding new tests.
 
 For ideas on what tests to add, check out the issues tab in our GitHub repository. Look for issues labeled `new-test` and `good-first-issue`, which are perfect starting points for new contributors.
-

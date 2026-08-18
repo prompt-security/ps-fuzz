@@ -33,45 +33,54 @@ def _suppress_loggers(logger_names):
             logging.getLogger(name).setLevel(lvl)
 
 # Check dependencies availability
-DEPENDENCIES_AVAILABLE = True
 MISSING_PACKAGES = []
 
 suppress_names = []
 try:
-    from langchain_community.vectorstores import Chroma
+    from langchain_chroma import Chroma
     suppress_names = ["chromadb"]
-
 except ImportError:
-    DEPENDENCIES_AVAILABLE = False
     MISSING_PACKAGES.append("chromadb")
+    Chroma = None
 
 try:
-    from langchain_community.embeddings import OpenAIEmbeddings, OllamaEmbeddings
+    from langchain_openai import OpenAIEmbeddings
 except ImportError:
-    DEPENDENCIES_AVAILABLE = False
-    MISSING_PACKAGES.append("langchain-community (embeddings)")
+    MISSING_PACKAGES.append("langchain-openai")
+    OpenAIEmbeddings = None
+
+try:
+    from langchain_ollama import OllamaEmbeddings
+except ImportError:
+    MISSING_PACKAGES.append("langchain-ollama")
+    OllamaEmbeddings = None
 
 try:
     from langchain_core.documents import Document
 except ImportError:
-    DEPENDENCIES_AVAILABLE = False
-    MISSING_PACKAGES.append("langchain (schema)")
+    MISSING_PACKAGES.append("langchain-core")
+    Document = None
+
+DEPENDENCIES_AVAILABLE = Chroma is not None and Document is not None
 
 # Create dummy classes for when dependencies are not available
-if not DEPENDENCIES_AVAILABLE:
+if Document is None:
     class Document:
         def __init__(self, page_content, metadata):
             self.page_content = page_content
             self.metadata = metadata
-    
+
+if Chroma is None:
     class Chroma:
         def __init__(self, *args, **kwargs):
             pass
-    
+
+if OpenAIEmbeddings is None:
     class OpenAIEmbeddings:
         def __init__(self, *args, **kwargs):
             pass
-    
+
+if OllamaEmbeddings is None:
     class OllamaEmbeddings:
         def __init__(self, *args, **kwargs):
             pass
@@ -126,6 +135,8 @@ class TestRAGPoisoning(TestBase):
             model = config.embedding_model
         
         if provider == 'open_ai':
+            if 'langchain-openai' in MISSING_PACKAGES:
+                raise ImportError("OpenAI embeddings require the langchain-openai package")
             # Get embedding-specific base URL if configured
             base_url = None
             if isinstance(config, dict):
@@ -141,6 +152,8 @@ class TestRAGPoisoning(TestBase):
             return OpenAIEmbeddings(**kwargs)
             
         elif provider == 'ollama':
+            if 'langchain-ollama' in MISSING_PACKAGES:
+                raise ImportError("Ollama embeddings require the langchain-ollama package")
             # Get embedding-specific base URL if configured
             base_url = None
             if isinstance(config, dict):
@@ -255,11 +268,16 @@ class TestRAGPoisoning(TestBase):
         with _suppress_loggers(suppress_names):
             self.vectorstore.add_documents([poisoned_doc])
         
-        # Persist the database (ChromaDB 0.4.0+ auto-persists with persist_directory)
-        try:
-            self.vectorstore.persist()
-        except AttributeError:
-            pass  # ChromaDB 0.4.0+ auto-persists when using persist_directory
+        # Chroma persists automatically when persist_directory is configured.
+
+    def _retrieve_relevant_documents(self, query: str):
+        """Use the Runnable API required by modern LangChain retrievers."""
+        retriever = self.vectorstore.as_retriever(
+            search_type="similarity",
+            search_kwargs={"k": 3}
+        )
+        with _suppress_loggers(suppress_names):
+            return retriever.invoke(query)
     
     def _cleanup(self):
         """Clean up temporary resources"""
@@ -275,7 +293,7 @@ class TestRAGPoisoning(TestBase):
         # Preflight check: Skip if dependencies not available
         if not DEPENDENCIES_AVAILABLE:
             missing_packages_str = ", ".join(MISSING_PACKAGES) if MISSING_PACKAGES else "chromadb"
-            error_msg = f"Required dependencies not available: {missing_packages_str}. Install with: pip install chromadb (or uv pip install chromadb) or install with RAG extras: pip install .[rag]"
+            error_msg = f"Required dependencies not available: {missing_packages_str}. Reinstall prompt-security-fuzzer with its default dependencies."
             logger.warning(f"RAG poisoning attack skipped: {error_msg}")
             self.status.report_skipped("", error_msg)
             yield StatusUpdate(self.client_config, self.test_name, self.status, "Skipped", 1, 1)
@@ -311,13 +329,7 @@ class TestRAGPoisoning(TestBase):
                 
                 try:
                     # Retrieve relevant documents
-                    retriever = self.vectorstore.as_retriever(
-                        search_type="similarity",
-                        search_kwargs={"k": 3}
-                    )
-                    # suppress telemetry during retrieval
-                    with _suppress_loggers(suppress_names):
-                        relevant_docs = retriever.get_relevant_documents(query)
+                    relevant_docs = self._retrieve_relevant_documents(query)
                     
                     # Create context from retrieved documents
                     context = "\n\n".join([doc.page_content for doc in relevant_docs])
