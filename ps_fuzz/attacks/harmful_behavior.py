@@ -4,10 +4,9 @@ from ..attack_config import AttackConfig
 from ..test_base import TestBase, StatusUpdate
 from ..attack_registry import register_test
 # from ..util import contains_refusal_keywords
-from .utils import evaluate_response
+from .utils import evaluate_response, packaged_attack_data_path
 from typing import Generator
 import pandas as pd
-from pkg_resources import resource_filename # for loading attack data file packaged with the library
 import logging
 import sys
 logger = logging.getLogger(__name__)
@@ -23,9 +22,9 @@ class TestHarmfulBehaviors(TestBase):
         )
 
     def run(self) -> Generator[StatusUpdate, None, None]:
-        dataset_filename = resource_filename('ps_fuzz', 'attack_data/harmful_behavior.csv')
-        logger.info(f"Dataset filename: {dataset_filename}")
-        data = pd.read_csv(dataset_filename)
+        with packaged_attack_data_path('harmful_behavior.csv') as dataset_filename:
+            logger.info(f"Dataset filename: {dataset_filename}")
+            data = pd.read_csv(dataset_filename)
         rows_count = data.shape[0]
 
         if rows_count > self.attack_config.attack_prompts_count:

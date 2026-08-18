@@ -1,8 +1,8 @@
 import os, sys
 sys.path.append(os.path.abspath('.'))
 from unittest.mock import patch, MagicMock
-from ps_fuzz.chat_clients import ClientBase, ClientLangChain, MessageList, BaseMessage, SystemMessage, HumanMessage, AIMessage
-from ps_fuzz.langchain_integration import ChatModelParams, ChatModelInfo
+from ps_fuzz.chat_clients import ChatSession, ClientBase, ClientLangChain, MessageList, BaseMessage, SystemMessage, HumanMessage, AIMessage
+from ps_fuzz.langchain_integration import ChatModelParams, ChatModelInfo, get_langchain_chat_models_info
 from ps_fuzz.attack_config import AttackConfig
 from ps_fuzz.client_config import ClientConfig
 from typing import Dict, List
@@ -31,6 +31,45 @@ fake_chat_models_info: Dict[str, ChatModelInfo] = {
         'temperature': ChatModelParams(typ=float, default=0.7, description="Fake temperature"),
     }),
 }
+
+
+def test_default_provider_registry_exposes_openai_and_ollama():
+    """Only providers constructible from the default install are advertised."""
+    providers = get_langchain_chat_models_info()
+
+    assert set(providers) == {"open_ai", "ollama"}
+
+
+def test_chat_session_sends_system_prompts_as_system_messages():
+    """System prompts must keep their message role when sent to a chat model."""
+    class RecordingClient(ClientBase):
+        def __init__(self):
+            self.messages = []
+
+        def interact(self, history, messages):
+            self.messages = list(messages)
+            return "ok"
+
+    client = RecordingClient()
+    session = ChatSession(client, system_prompts=["Stay on task"])
+
+    assert session.say("hello") == "ok"
+    assert isinstance(client.messages[0], SystemMessage)
+    assert client.messages[0].content == "Stay on task"
+    assert isinstance(client.messages[1], HumanMessage)
+
+
+@patch('ps_fuzz.chat_clients.init_chat_model')
+@patch('ps_fuzz.chat_clients.chat_models_info', fake_chat_models_info)
+def test_client_langchain_uses_the_modern_factory_for_optional_providers(mock_init_chat_model):
+    """Providers supplied as split LangChain integrations retain a supported path."""
+    ClientLangChain(backend='anthropic', model='claude-test', temperature=0.2)
+
+    mock_init_chat_model.assert_called_once_with(
+        model='claude-test',
+        model_provider='anthropic',
+        temperature=0.2,
+    )
 
 @patch('ps_fuzz.chat_clients.chat_models_info', fake_chat_models_info)
 def test_client_langchain():

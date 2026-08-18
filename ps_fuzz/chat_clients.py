@@ -1,4 +1,5 @@
-from .langchain_integration import get_langchain_chat_models_info
+from .langchain_integration import get_factory_provider, get_langchain_chat_models_info
+from langchain.chat_models import init_chat_model
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.outputs.llm_result import LLMResult
 from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage, AIMessage
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 MessageList = List[BaseMessage]
 
 # Introspect langchain for supported models
-chat_models_info = get_langchain_chat_models_info()
+chat_models_info = get_langchain_chat_models_info(include_legacy=True)
 
 # Chat clients are defined below
 class ClientBase(ABC):
@@ -31,22 +32,28 @@ class FakeChatClient(ClientBase):
 class ClientLangChain(ClientBase):
     "Chat model wrapper around LangChain"
     def __init__(self, backend: str, **kwargs):
+        provider = get_factory_provider(backend)
+
+        # Transform provider-specific base_url params to the generic base_url,
+        # and remove empty values so they don't get passed to the model constructor.
+        if provider == 'ollama' and 'ollama_base_url' in kwargs:
+            url = kwargs.pop('ollama_base_url')
+            if url:
+                kwargs['base_url'] = url
+
+        if provider == 'openai' and 'openai_base_url' in kwargs:
+            url = kwargs.pop('openai_base_url')
+            if url:
+                kwargs['base_url'] = url
+
         if backend in chat_models_info:
             model_cls = chat_models_info[backend].model_cls
-            
-            # Transform provider-specific base_url params to the generic base_url,
-            # and remove empty values so they don't get passed to the model constructor.
-            if backend == 'ollama' and 'ollama_base_url' in kwargs:
-                url = kwargs.pop('ollama_base_url')
-                if url:
-                    kwargs['base_url'] = url
-
-            if backend == 'open_ai' and 'openai_base_url' in kwargs:
-                url = kwargs.pop('openai_base_url')
-                if url:
-                    kwargs['base_url'] = url
-                
             self.client = model_cls(**kwargs)
+        elif provider:
+            model = kwargs.pop('model', None)
+            if not model:
+                raise ValueError(f"A model is required for the {backend} backend")
+            self.client = init_chat_model(model=model, model_provider=provider, **kwargs)
         else:
             raise ValueError(f"Invalid backend name: {backend}. Supported backends: {', '.join(chat_models_info.keys())}")
 
@@ -71,7 +78,7 @@ class ChatSession:
         self.client = client
         self.system_prompts = None
         if system_prompts:
-            self.system_prompts = list(map(lambda system_prompt_text: AIMessage(content=system_prompt_text), system_prompts))
+            self.system_prompts = list(map(lambda system_prompt_text: SystemMessage(content=system_prompt_text), system_prompts))
         self.history = []
 
     def say(self, user_prompt: str):

@@ -196,7 +196,7 @@ def run_interactive_chat(app_config: AppConfig):
         kwargs = _build_client_kwargs(app_config, app_config.target_provider, app_config.target_model, 0)
         target_client = ClientLangChain(app_config.target_provider, **kwargs)
         interactive_chat(client=target_client, system_prompts=[target_system_prompt])
-    except (ModuleNotFoundError, ValidationError) as e:
+    except (ImportError, ValidationError) as e:
         logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
 
@@ -208,7 +208,7 @@ def run_fuzzer(app_config: AppConfig):
     try:
         target_kwargs = _build_client_kwargs(app_config, app_config.target_provider, app_config.target_model, 0)
         target_client = ClientLangChain(app_config.target_provider, **target_kwargs)
-    except (ModuleNotFoundError, ValidationError) as e:
+    except (ImportError, ValidationError) as e:
         logger.warning(f"Error accessing the Target LLM provider {app_config.target_provider} with model '{app_config.target_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
     client_config = ClientConfig(target_client, [target_system_prompt], custom_benchmark=custom_benchmark)
@@ -220,7 +220,7 @@ def run_fuzzer(app_config: AppConfig):
             attack_prompts_count = app_config.num_attempts,
             embedding_config = _build_embedding_config(app_config)
         )
-    except (ModuleNotFoundError, ValidationError) as e:
+    except (ImportError, ValidationError) as e:
         logger.warning(f"Error accessing the Attack LLM provider {app_config.attack_provider} with model '{app_config.attack_model}': {colorama.Fore.RED}{e}{colorama.Style.RESET_ALL}")
         return
 

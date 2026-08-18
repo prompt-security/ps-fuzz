@@ -11,34 +11,35 @@ authors = [
 description = "LLM and System Prompt vulnerability scanner tool"
 readme = "README.md"
 license = {text = "MIT"}
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Quality Assurance",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11"
 ]
 dependencies = [
-    "setuptools>=61.0",
-    "httpx>=0.24.0,<0.25.0",
-    "openai==1.6.1",
-    "langchain>=0.3.0,<0.4.0",
-    "langchain-community>=0.3.0,<0.4.0",
-    "langchain-core>=0.3.81,<0.4.0",
+    "httpx>=0.27.0,<1.0.0",
+    "openai>=2.45.0,<4.0.0",
+    "langchain>=1.3.9,<2.0.0",
+    "langchain-community>=0.4.2,<0.5.0",
+    "langchain-core>=1.5.4,<2.0.0",
+    "langchain-openai>=1.5.1,<2.0.0",
+    "langchain-ollama>=1.1.0,<2.0.0",
     "argparse==1.4.0",
-    "python-dotenv==1.0.0",
+    "python-dotenv>=1.2.2,<2.0.0",
     "tqdm>=4.66.3",
     "colorama==0.4.6",
     "prettytable==3.10.0",
-    "pandas==2.2.2",
+    "pandas==2.2.3",
     "inquirer==3.2.4",
     "prompt-toolkit==3.0.43",
-    "fastparquet==2024.2.0",
-    "chromadb>=0.4.0",
+    "fastparquet==2024.11.0",
+    "chromadb>=1.3.5,<2.0.0",
+    "langchain-chroma>=1.1.0,<2.0.0",
     "tiktoken>=0.11.0"
 ]
 
@@ -52,8 +53,8 @@ prompt-security-fuzzer = "ps_fuzz.cli:main"
 Homepage = "https://github.com/prompt-security/ps-fuzz"
 Repository = "https://github.com/prompt-security/ps-fuzz"
 
-[tool.setuptools]
-packages = ["ps_fuzz"]
+[tool.setuptools.packages.find]
+include = ["ps_fuzz*"]
 
 [tool.setuptools.package-data]
 ps_fuzz = ["attack_data/*"]

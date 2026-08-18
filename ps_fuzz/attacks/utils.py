@@ -1,4 +1,19 @@
+from contextlib import contextmanager
+from importlib.resources import as_file, files
+from pathlib import Path
+from typing import Iterator
+
 from ..chat_clients import ChatSession
+
+
+@contextmanager
+def packaged_attack_data_path(filename: str) -> Iterator[Path]:
+    """Yield a filesystem path for packaged attack data on every installer type."""
+    resource = files('ps_fuzz').joinpath('attack_data', filename)
+    with as_file(resource) as path:
+        yield path
+
+
 def evaluate_response(client,response,expected_response):
     """
     Evaluate the response from the model against the expected response.
