@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     print_table(
         title = "Test results simulated",
-        headers = ["", "Test", "Succesful", "Unsuccesful", "Score (1-10)"],
+        headers = ["", "Test", "Successful", "Unsuccessful", "Score (1-10)"],
         data = [
             [ PASSED, "Test 1 (good)", 1, 0, 10 ],
             [ FAILED, "Test 2 (bad)", 0, 1, 0 ],
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     print_table(
         title = "Test results simulated with footer",
-        headers = ["", "Test", "Succesful", "Unsuccesful", "Score (1-10)"],
+        headers = ["", "Test", "Successful", "Unsuccessful", "Score (1-10)"],
         data = [
             [ PASSED, "Test 1 (good)", 1, 0, 10 ],
             [ FAILED, "Test 2 (bad)", 0, 1, 0 ],
